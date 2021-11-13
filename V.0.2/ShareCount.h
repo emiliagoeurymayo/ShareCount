@@ -5,10 +5,21 @@
 #include <list>
 #include "Compte.h"
 
+
+/** @brief Classe ShareCount
+ **
+ ** Elle contient 
+ **  @ref ShareCount()
+ **  @ref ajouterCompte(string, string)
+ **
+ ** @version 0.2
+ **
+ ** @author Thibault Odor, Marie-Luc Moselle, Emilia Goeury-Mayo 
+ **/
 class ShareCount{
 public:
 
-    ShareCount();//Constructeur
+    ShareCount();
     virtual ~ShareCount();
     void ajouterCompte(std::string nom,std::string email);
 
