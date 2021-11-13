@@ -1,0 +1,134 @@
+\hypertarget{class_gestionnaire_dialogue}{}\doxysection{Gestionnaire\+Dialogue Class Reference}
+\label{class_gestionnaire_dialogue}\index{GestionnaireDialogue@{GestionnaireDialogue}}
+
+
+La classe \mbox{\hyperlink{class_gestionnaire_dialogue}{Gestionnaire\+Dialogue}} gère les interactions.  
+
+
+
+
+{\ttfamily \#include $<$Gestionnaire\+Dialogue.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_gestionnaire_dialogue_a768c6392b8d007c2a266de2a8cc36042}{Gestionnaire\+Dialogue}} (\mbox{\hyperlink{class_share_count}{Share\+Count}} sharecount, \mbox{\hyperlink{class_serveur_mail}{Serveur\+Mail}} serveurmail)
+\begin{DoxyCompactList}\small\item\em Constructeur. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_gestionnaire_dialogue_abea4132a0d6c02d33997c8c8acff1cc2}\label{class_gestionnaire_dialogue_abea4132a0d6c02d33997c8c8acff1cc2}} 
+virtual \mbox{\hyperlink{class_gestionnaire_dialogue_abea4132a0d6c02d33997c8c8acff1cc2}{$\sim$\+Gestionnaire\+Dialogue}} ()
+\begin{DoxyCompactList}\small\item\em Destructeur. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_gestionnaire_dialogue_afd2cf80afb9ff2643f1d122ad9c1a86a}{verif\+Informations}} (std\+::string nom, std\+::string email)
+\begin{DoxyCompactList}\small\item\em verifie les informations \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_gestionnaire_dialogue_a478aaf9144be475ffb54e62837f2682b}{envoi\+Email}} (std\+::string email)
+\begin{DoxyCompactList}\small\item\em envoie un email \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_gestionnaire_dialogue_a0ba7ea78849a1946260056e0961ba936}{verif\+Validation\+Email}} (std\+::string nom, std\+::string email)
+\begin{DoxyCompactList}\small\item\em verifie l\textquotesingle{}email de validation \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+La classe \mbox{\hyperlink{class_gestionnaire_dialogue}{Gestionnaire\+Dialogue}} gère les interactions. 
+
+Elle contient \mbox{\hyperlink{class_gestionnaire_dialogue_a768c6392b8d007c2a266de2a8cc36042}{Gestionnaire\+Dialogue(\+Share\+Count, Serveur\+Mail)}} verif\+Informations(\+String, String) envoi\+Email(\+String) verif\+Validation\+Email(\+String, String) \begin{DoxyVersion}{Version}
+0.\+4
+\end{DoxyVersion}
+\begin{DoxyAuthor}{Author}
+Thibault Odor, Marie-\/\+Luc Moselle, Emilia Goeury-\/\+Mayo 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_gestionnaire_dialogue_a768c6392b8d007c2a266de2a8cc36042}\label{class_gestionnaire_dialogue_a768c6392b8d007c2a266de2a8cc36042}} 
+\index{GestionnaireDialogue@{GestionnaireDialogue}!GestionnaireDialogue@{GestionnaireDialogue}}
+\index{GestionnaireDialogue@{GestionnaireDialogue}!GestionnaireDialogue@{GestionnaireDialogue}}
+\doxysubsubsection{\texorpdfstring{GestionnaireDialogue()}{GestionnaireDialogue()}}
+{\footnotesize\ttfamily Gestionnaire\+Dialogue\+::\+Gestionnaire\+Dialogue (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_share_count}{Share\+Count}}}]{share\+Count,  }\item[{\mbox{\hyperlink{class_serveur_mail}{Serveur\+Mail}}}]{serveur\+Mail }\end{DoxyParamCaption})}
+
+
+
+Constructeur. 
+
+Classe \mbox{\hyperlink{class_gestionnaire_dialogue}{Gestionnaire\+Dialogue}}.
+
+permet comunication
+
+\begin{DoxyVersion}{Version}
+0.\+4
+\end{DoxyVersion}
+\begin{DoxyAuthor}{Author}
+Thibault Odor, Marie-\/\+Luc Moselle, Emilia Goeury-\/\+Mayo
+\end{DoxyAuthor}
+Contructeur
+
+
+\begin{DoxyParams}{Parameters}
+{\em sharecount} & \+: \mbox{\hyperlink{class_share_count}{Share\+Count}} \\
+\hline
+{\em serveur\+Mail} & \+: \mbox{\hyperlink{class_serveur_mail}{Serveur\+Mail}} \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_gestionnaire_dialogue_a478aaf9144be475ffb54e62837f2682b}\label{class_gestionnaire_dialogue_a478aaf9144be475ffb54e62837f2682b}} 
+\index{GestionnaireDialogue@{GestionnaireDialogue}!envoiEmail@{envoiEmail}}
+\index{envoiEmail@{envoiEmail}!GestionnaireDialogue@{GestionnaireDialogue}}
+\doxysubsubsection{\texorpdfstring{envoiEmail()}{envoiEmail()}}
+{\footnotesize\ttfamily void Gestionnaire\+Dialogue\+::envoi\+Email (\begin{DoxyParamCaption}\item[{std\+::string}]{email }\end{DoxyParamCaption})}
+
+
+
+envoie un email 
+
+envoi un email
+
+
+\begin{DoxyParams}{Parameters}
+{\em email} & \+: String \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_gestionnaire_dialogue_afd2cf80afb9ff2643f1d122ad9c1a86a}\label{class_gestionnaire_dialogue_afd2cf80afb9ff2643f1d122ad9c1a86a}} 
+\index{GestionnaireDialogue@{GestionnaireDialogue}!verifInformations@{verifInformations}}
+\index{verifInformations@{verifInformations}!GestionnaireDialogue@{GestionnaireDialogue}}
+\doxysubsubsection{\texorpdfstring{verifInformations()}{verifInformations()}}
+{\footnotesize\ttfamily void Gestionnaire\+Dialogue\+::verif\+Informations (\begin{DoxyParamCaption}\item[{std\+::string}]{nom,  }\item[{std\+::string}]{email }\end{DoxyParamCaption})}
+
+
+
+verifie les informations 
+
+Verifie informations données.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nom} & \+: String \\
+\hline
+{\em email} & \+: String ~\newline
+ \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_gestionnaire_dialogue_a0ba7ea78849a1946260056e0961ba936}\label{class_gestionnaire_dialogue_a0ba7ea78849a1946260056e0961ba936}} 
+\index{GestionnaireDialogue@{GestionnaireDialogue}!verifValidationEmail@{verifValidationEmail}}
+\index{verifValidationEmail@{verifValidationEmail}!GestionnaireDialogue@{GestionnaireDialogue}}
+\doxysubsubsection{\texorpdfstring{verifValidationEmail()}{verifValidationEmail()}}
+{\footnotesize\ttfamily void Gestionnaire\+Dialogue\+::verif\+Validation\+Email (\begin{DoxyParamCaption}\item[{std\+::string}]{nom,  }\item[{std\+::string}]{email }\end{DoxyParamCaption})}
+
+
+
+verifie l\textquotesingle{}email de validation 
+
+verifie la validation d\textquotesingle{}un email
+
+
+\begin{DoxyParams}{Parameters}
+{\em nom} & \+: String \\
+\hline
+{\em email} & \+: String ~\newline
+ \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Gestionnaire\+Dialogue.\+h\item 
+Gestionnaire\+Dialogue.\+cpp\end{DoxyCompactItemize}
