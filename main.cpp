@@ -1,8 +1,5 @@
 #include "mainwindow.h"
 #include "Compte.h"
-#include "ShareCount.h"
-#include "ServeurMail.h"
-#include "GestionnaireDialogue.h"
 #include <iostream>
 #include <QApplication>
 
