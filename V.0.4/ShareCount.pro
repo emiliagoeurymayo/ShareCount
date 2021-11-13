@@ -14,6 +14,10 @@ SOURCES += \
     ServeurMail.cpp \
     ShareCount.cpp \
     main.cpp \
+    TestCompte.cpp \
+    TestShareCount.cpp \
+    TestServeurMail.cpp \
+    TestGestionnaireDialogue.cpp \
     mainwindow.cpp
 
 HEADERS += \
@@ -21,6 +25,10 @@ HEADERS += \
     GestionnaireDialogue.h \
     ServeurMail.h \
     ShareCount.h \
+    TestCompte.h \
+    TestShareCount.h \
+    TestServeurMail.h \
+    TestGestionnaireDialogue.h \
     mainwindow.h
 
 FORMS += \

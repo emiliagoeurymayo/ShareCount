@@ -11,11 +11,14 @@ CONFIG += c++11
 SOURCES += \
     Compte.cpp \
     main.cpp \
+    TestCompte.cpp \
     mainwindow.cpp
 
 HEADERS += \
     Compte.h \
+    TestCompte.h \
     mainwindow.h
+
 
 FORMS += \
     mainwindow.ui

@@ -13,12 +13,18 @@ SOURCES += \
     ServeurMail.cpp \
     ShareCount.cpp \
     main.cpp \
+    TestCompte.cpp \
+    TestShareCount.cpp \
+    TestServeurMail.cpp \
     mainwindow.cpp
 
 HEADERS += \
     Compte.h \
     ServeurMail.h \
     ShareCount.h \
+    TestCompte.h \
+    TestShareCount.h \
+    TestServeurMail.h \
     mainwindow.h
 
 FORMS += \

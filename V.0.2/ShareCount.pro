@@ -12,11 +12,15 @@ SOURCES += \
     Compte.cpp \
     ShareCount.cpp \
     main.cpp \
+    TestCompte.cpp \
+    TestShareCount.cpp \
     mainwindow.cpp
 
 HEADERS += \
     Compte.h \
     ShareCount.h \
+    TestCompte.h \
+    TestShareCount.h \
     mainwindow.h
 
 FORMS += \

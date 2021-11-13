@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['getstatusemail_19',['getStatusEmail',['../class_serveur_mail.html#affc61b855824f72cece81eb9eef3b83d',1,'ServeurMail']]]
+  ['sharecount_17',['ShareCount',['../class_share_count.html#a2f168e40fb286774b8d1e6dc1c1e5025',1,'ShareCount']]]
 ];

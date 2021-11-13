@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "Compte.h"
 #include "ShareCount.h"
+#include "TestCompte.h"
+#include "TestShareCount.h"
 #include <iostream>
 #include <QApplication>
 
@@ -9,10 +11,14 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
 
-    ShareCount sC;
+    printf("TestCompte\n");
+    TestCompte test;
+    test.testAfficherCompte();
 
-    Compte c("Jorge","jorge@pompidou.com");
-    c.afficher();
+    printf("\nTestShareCount\n");
+    TestShareCount test1;
+    test1.testAjouterCompte();
+
 
     w.show();
     return a.exec();
