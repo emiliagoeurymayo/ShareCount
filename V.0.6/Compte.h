@@ -6,22 +6,20 @@
 
 /** @brief La classe Compte permet la création de tous les comptes de l'application
  **
- ** Elle contient 
+ ** Elle contient
  **  @ref Compte(string, string)
  **
- ** @version 0.3
+ ** @version 0.6
  **
- ** @author Thibault Odor, Marie-Luc Moselle, Emilia Goeury-Mayo 
+ ** @author Thibault Odor, Marie-Luc Moselle, Emilia Goeury-Mayo
  **/
 class Compte{
 public:
     ///@brief Constructeur
     Compte(std::string nom,std::string email);
-
-    //@brief Desctructeur 
+    ///@brief Desctructeur
     virtual ~Compte();
-
-    ///@brief Affiche les informations du compte 
+    ///@brief Affiche les informations du compte
     void afficher();
 
 private:
