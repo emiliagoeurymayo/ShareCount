@@ -10,17 +10,11 @@ CONFIG += c++11
 
 SOURCES += \
     Compte.cpp \
-    GestionnaireDialogue.cpp \
-    ServeurMail.cpp \
-    ShareCount.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     Compte.h \
-    GestionnaireDialogue.h \
-    ServeurMail.h \
-    ShareCount.h \
     mainwindow.h
 
 FORMS += \
