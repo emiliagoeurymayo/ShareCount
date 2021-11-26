@@ -13,6 +13,7 @@ SOURCES += \
     GestionnaireDialogue.cpp \
     ServeurMail.cpp \
     ShareCount.cpp \
+    connexioninscription.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -21,9 +22,11 @@ HEADERS += \
     GestionnaireDialogue.h \
     ServeurMail.h \
     ShareCount.h \
+    connexioninscription.h \
     mainwindow.h
 
 FORMS += \
+    connexioninscription.ui \
     mainwindow.ui
 
 # Default rules for deployment.

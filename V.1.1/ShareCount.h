@@ -20,7 +20,7 @@ public:
 
     ShareCount();
     virtual ~ShareCount();
-    void ajouterCompte(std::string nom,std::string email,std::string mdp);
+    void ajouterCompte(std::string nom,std::string prenom,std::string email,std::string mdp,std::string pseudo);
 
 private:
 

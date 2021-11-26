@@ -17,7 +17,7 @@
 ///
 /// @param nom : nom de l'utilisateur
 ///@param email : email de l'utilisateur
-Compte::Compte(std::string nom, std::string email,std::string mdp) : m_nom(nom), m_email(email), m_mdp(mdp)
+Compte::Compte(std::string nom,std::string prenom,std::string email,std::string mdp,std::string pseudo) : m_nom(nom),m_prenom(prenom), m_email(email),m_mdp(mdp),m_pseudo(pseudo)
 {
 
 }
@@ -28,7 +28,7 @@ Compte::~Compte(){}
 ///@brief Affiche les informations du compte
 void Compte::afficher()
 {
-    std::cout << "Nom: " << m_nom << " / email: " << m_email << " / mdp: " << m_mdp << std::endl;
+    std::cout << "Nom: " << m_nom << "/ Prenom: " << m_prenom <<  " / email: " << m_email << "/ Pseudo: " << m_pseudo << " / mdp: " << m_mdp << std::endl;
 }
 
 

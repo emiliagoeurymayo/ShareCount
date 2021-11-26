@@ -18,10 +18,14 @@ public:
     QString getLineEditNom();
     QString getLineEditeMail();
     QString getLineEditMdp();
+    QString getLineEditPrenom();
+    QString getLineEditPseudo();
     void attachGestionnaireDialogue(GestionnaireDialogue g);
 
 private slots:
     void on_boutton_Compte_clicked();
+
+    void on_retourAccueil_clicked();
 
 private:
     Ui::MainWindow *ui;

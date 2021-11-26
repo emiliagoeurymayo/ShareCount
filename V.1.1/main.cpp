@@ -5,6 +5,7 @@
 #include "GestionnaireDialogue.h"
 #include <iostream>
 #include <QApplication>
+#include "connexioninscription.h"
 
 int main(int argc, char *argv[])
 {
