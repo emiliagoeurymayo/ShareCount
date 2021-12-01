@@ -1,11 +1,10 @@
-#include "inscription.h"
 #include "compte.h"
 #include "shareCount.h"
 #include "serveurMail.h"
 #include "gestionnaireDialogue.h"
+#include "connexioninscription.h"
 #include <iostream>
 #include <QApplication>
-#include "connexioninscription.h"
 
 int main(int argc, char *argv[])
 {

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "gestionnaireDialogue.h"
+#include "ui_inscription.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

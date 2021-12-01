@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Connexion</class>
- <widget class="QMainWindow" name="Connexion">
+ <class>Inscription</class>
+ <widget class="QMainWindow" name="Inscription">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Connexion</string>
+   <string>Inscription</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="gridLayoutWidget">
@@ -24,7 +24,27 @@
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="2">
+     <item row="11" column="1">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Mdp :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="18" column="1">
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="2" column="2">
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -37,23 +57,17 @@
        </property>
       </spacer>
      </item>
-     <item row="1" column="0">
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+     <item row="10" column="1">
+      <widget class="QLineEdit" name="lineEdit_Pseudo">
+       <property name="echoMode">
+        <enum>QLineEdit::Normal</enum>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
+      </widget>
      </item>
      <item row="6" column="1">
-      <widget class="QLabel" name="label_4">
+      <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Mot de passe :</string>
+        <string>eMail :</string>
        </property>
       </widget>
      </item>
@@ -70,61 +84,85 @@
        </property>
       </spacer>
      </item>
-     <item row="13" column="1">
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="10" column="1">
-      <widget class="QPushButton" name="boutton_Compte">
+     <item row="8" column="1">
+      <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Connexion</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="QLineEdit" name="lineEdit_Mdp">
-       <property name="echoMode">
-        <enum>QLineEdit::Password</enum>
+        <string>Pseudo :</string>
        </property>
       </widget>
      </item>
      <item row="4" column="1">
-      <widget class="QLineEdit" name="lineEdit_eMail"/>
+      <widget class="QLineEdit" name="lineEdit_Prenom">
+       <property name="echoMode">
+        <enum>QLineEdit::Normal</enum>
+       </property>
+      </widget>
      </item>
-     <item row="12" column="1">
+     <item row="3" column="1">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Prenom :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="15" column="1">
+      <widget class="QPushButton" name="boutton_Compte">
+       <property name="text">
+        <string>Créer Compte</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Nom :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="17" column="1">
       <widget class="QPushButton" name="retourAccueil">
        <property name="text">
         <string>Accueil</string>
        </property>
       </widget>
      </item>
-     <item row="8" column="1">
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string/>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="lineEdit_Nom"/>
+     </item>
+     <item row="12" column="1">
+      <widget class="QLineEdit" name="lineEdit_Mdp">
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
        </property>
       </widget>
      </item>
-     <item row="11" column="1">
+     <item row="7" column="1">
+      <widget class="QLineEdit" name="lineEdit_eMail"/>
+     </item>
+     <item row="16" column="1">
       <widget class="QLabel" name="label_6">
        <property name="text">
         <string/>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QLabel" name="label_2">
+     <item row="13" column="1">
+      <widget class="QLabel" name="label_7">
        <property name="text">
-        <string>e-mail :</string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -133,7 +171,10 @@
   </widget>
  </widget>
  <tabstops>
+  <tabstop>lineEdit_Nom</tabstop>
+  <tabstop>lineEdit_Prenom</tabstop>
   <tabstop>lineEdit_eMail</tabstop>
+  <tabstop>lineEdit_Pseudo</tabstop>
   <tabstop>lineEdit_Mdp</tabstop>
   <tabstop>boutton_Compte</tabstop>
  </tabstops>

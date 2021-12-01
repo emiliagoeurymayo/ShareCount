@@ -1,5 +1,5 @@
-#ifndef INSCRIPTION_H
-#define INSCRIPTION_H
+#ifndef CONNEXION_H
+#define CONNEXION_H
 
 #include <QMainWindow>
 #include "gestionnaireDialogue.h"
@@ -8,13 +8,13 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class Inscription : public QMainWindow
+class Connexion : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    Inscription(QWidget *parent = nullptr);
-    ~Inscription();
+    Connexion(QWidget *parent = nullptr);
+    ~Connexion();
     QString getLineEditNom();
     QString getLineEditeMail();
     QString getLineEditMdp();
@@ -31,4 +31,4 @@ private:
     Ui::MainWindow *ui;
     GestionnaireDialogue m_gestionnaireDialogue;
 };
-#endif // INSCRIPTION_H
+#endif // CONNEXION_H

@@ -2,6 +2,7 @@
 #define GESTIONNAIREDIALOGUE
 
 #include <string>
+#include <limits>
 #include "ServeurMail.h"
 #include "ShareCount.h"
 

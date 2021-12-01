@@ -16,7 +16,7 @@
 /// @brief Constructeur
 ///
 /// @param nom : nom de l'utilisateur
-///@param email : email de l'utilisateur
+/// @param email : email de l'utilisateur
 Compte::Compte(std::string nom,std::string prenom,std::string email,std::string mdp,std::string pseudo) : m_nom(nom),m_prenom(prenom), m_email(email),m_mdp(mdp),m_pseudo(pseudo)
 {
 

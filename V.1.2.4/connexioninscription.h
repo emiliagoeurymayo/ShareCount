@@ -21,6 +21,8 @@ public:
 private slots:
     void on_bouttonAccueil_clicked();
 
+    void on_bouttonConnexion_clicked();
+
 private:
     Ui::ConnexionInscription *ui;
     GestionnaireDialogue m_gestionnaireDialogue;
