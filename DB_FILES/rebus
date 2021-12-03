@@ -1,0 +1,101 @@
+/*QSqlQuery query(this->db);
+                query.prepare("create table utilisateur(idutil integer primary key, prenom varchar(20),nom varchar(20),email varchar(50), mdp varchar(20))\ninsert into utilisateur values(1,'pre','nomnom','prenom.nom@test.fr','mdp')\ninsert into utilisateur values(2,'admin','admin','admin@test.fr','mdp1')\ninsert into utilisateur values(3,'test','test','test@test.fr','mdp2')\ncreate table compte(idcompte integer primary key, nom varchar(30), listePart varchar(30))\ncreate table dettes (idcompte integer primary key, util1 integer, util2 integer, dette integer)\ncreate table cagnotte(idcagnotte integer primary key, idRespo integer, montantDispo integer ,nom varchar(30), listePart varchar(30))\ninsert into compte values(1, \"Vacances\", \"1,2,3\")\ninsert into compte values(2, \"Soiree 29/11\", \"1,2,3\")\ninsert into cagnotte values(1, 2, 0, \"Cadeau maman\", \"1,2,3\")\ninsert into dettes values(1, 1, 2, 30)\ninsert into dettes values(2, 3, 2, 1)");
+                if(query.exec()){
+                    qDebug() << "DB created";
+                }*/
+
+
+
+
+                /*else{
+                std::cout << "init ok" << std::endl;
+                QSqlQuery result(this->db);
+                QFile file(path);
+                if((file.isOpen() && file.isReadable())){
+                    while((!file.atEnd())){
+                        result.exec(QString(file.readLine(10000)));
+                    }
+                    file.close();
+                }*/
+
+
+
+
+
+                                //"INSERT INTO utilisateur VALUES("+QString::fromStdString(stc)+",'"++"','"+QString::fromStdString(nom)+"','"+QString::fromStdString(email)+"','"+QString::fromStdString(mdp)+"','"+QString::fromStdString(payement)+"')");
+
+
+
+/*QString fileDB = QString::fromStdString(s);
+                if(!fileDB.isEmpty()){
+                    qDebug() << "not empty";
+                    QFile file(fileDB);
+                    if(file.exists()){
+                        file.open(QIODevice::ReadOnly);
+                        qDebug() << "exist";
+                        if(file.isOpen() && file.isReadable()){
+                            qDebug() << "file open";
+                            QTextStream stream(&file);
+                            QSqlQuery initDB(this->db);
+                            for (QString line = stream.readLine();
+                                 !line.isNull();
+                                 line = stream.readLine()) {
+                                    qDebug() << line;
+                                    initDB.prepare(line);
+                                    initDB.exec();
+                            }
+                        }
+                    }
+                    file.close();
+                }*/
+
+
+
+query2.prepare("insert into utilisateur values(1,'pre','nomnom','prenom.nom@test.fr','mdp','1234567891234567891')");
+            if(!query2.exec()){
+                qDebug() << "insert1 util";
+                qDebug() << query2.lastError();
+            }
+            QSqlQuery query3(this->db);
+            query3.prepare("insert into compte values(1,'Vacances', '1,2,3'");
+            if(!query3.exec()){
+                qDebug() << "insert1 compte";
+                qDebug() << query3.lastError();
+            }
+
+
+
+"INSERT INTO utilisateur VALUES("+QString::fromStdString(stc)+",'"+QString::fromStdString(prenom)+"','"+QString::fromStdString(nom)+"','"+QString::fromStdString(email)+"','"+QString::fromStdString(mdp)+"','"+QString::fromStdString(payement)+"')"
+
+
+
+
+/*query.prepare("INSERT INTO utilisateur(idutil, prenom, nom, email, mdp, payement) VALUES(:idutil, :prenom, :nom, :email, :mdp, :payement)");
+                query.bindValue(":idutil",this->nbUtil);
+                query.bindValue(":prenom", QString::fromStdString(prenom));
+                query.bindValue(":nom", QString::fromStdString(nom));
+                query.bindValue(":email",QString::fromStdString(email));
+                query.bindValue("mdp",QString::fromStdString(mdp));
+                query.bindValue(":payement",QString::fromStdString(payement));
+                query.exec();*/
+
+
+
+
+ qDebug() << "im in";
+            std::string stc = std::to_string(nbUtil);
+            try{
+                query.exec("INSERT INTO utilisateur VALUES("+QString::fromStdString(stc)+","+QString::fromStdString(prenom)+","+QString::fromStdString(nom)+","+QString::fromStdString(email)+","+QString::fromStdString(mdp)+","+QString::fromStdString(payement)+")");
+                if(utilExist(email)){
+                    result = true;
+                    qDebug() << "util added";
+                }else{
+                    this->nbUtil--;
+                    qDebug() << "util non ajouté";
+                }
+            }catch(QSqlError error){
+                    qDebug() << "error verif presence util";
+                    qDebug() << query.lastError();
+                    qDebug() << this->db.lastError();
+                }
+            }

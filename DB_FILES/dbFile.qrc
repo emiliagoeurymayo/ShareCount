@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/bdd">
+        <file>bdd.db</file>
+    </qresource>
+</RCC>
