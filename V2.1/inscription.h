@@ -2,10 +2,10 @@
 #define INSCRIPTION_H
 
 #include <QMainWindow>
-#include "ui_inscription.h"
 #include "gestionnaireDialogue.h"
-
-class ConnexionInscription;
+#include "ui_inscription.h"
+#pragma once    //A VOIR SI ON GARDE
+#include"connexioninscription.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Inscription; }
@@ -23,7 +23,7 @@ public:
     QString getLineEditMdp();
     QString getLineEditPrenom();
     QString getLineEditPseudo();
-    void attachGestionnaireDialogue(GestionnaireDialogue g);
+    void attachGestionnaireDialogue(GestionnaireDialogue *g);
 
 private slots:
     void on_boutton_Compte_clicked();

@@ -2,6 +2,7 @@
 #define CONNEXIONINSCRIPTION_H
 
 #include <QDialog>
+#pragma once    //A VOIR SI ON GARDE
 #include "inscription.h"
 #include "connexion.h"
 #include "gestionnaireDialogue.h"
@@ -17,7 +18,7 @@ class ConnexionInscription : public QDialog
 public:
     explicit ConnexionInscription(QWidget *parent = nullptr);
     ~ConnexionInscription();
-    void attachGestionnaireDialogue(GestionnaireDialogue g);
+    void attachGestionnaireDialogue(GestionnaireDialogue * g);
 
 private slots:
 

@@ -25,17 +25,9 @@ QString Connexion::getLineEditMdp()
     return ui->lineEdit_Mdp->text();
 }
 
-
-void Connexion::on_boutton_Compte_clicked()
+void Connexion::attachGestionnaireDialogue(GestionnaireDialogue *g)
 {
-    std::string mail,mdp;
-    mail=this->getLineEditeMail().toStdString();
-    mdp=this->getLineEditMdp().toStdString();
-}
-
-void Connexion::attachGestionnaireDialogue(GestionnaireDialogue g)
-{
-    m_gestionnaireDialogue=g;
+    m_gestionnaireDialogue=*g;
 }
 
 
@@ -43,5 +35,19 @@ void Connexion::on_retourAccueil_clicked()
 {
     this->close();
     QWidget::parentWidget()->show();
+}
+
+
+void Connexion::on_boutton_connexion_clicked()
+{
+    std::string mail,mdp;
+    mail=this->getLineEditeMail().toStdString();
+    mdp=this->getLineEditMdp().toStdString();
+    if(m_gestionnaireDialogue.verifConnexion(mail,mdp)){
+        std::cout << "Compte existant Bonjour" << std::endl;
+    }
+    else{
+        std::cout << "Compte Inconnu Aurevoir" << std::endl;
+    }
 }
 

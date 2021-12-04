@@ -11,15 +11,15 @@ ConnexionInscription::~ConnexionInscription()
 }
 
 
-void ConnexionInscription::attachGestionnaireDialogue(GestionnaireDialogue g)
+void ConnexionInscription::attachGestionnaireDialogue(GestionnaireDialogue * g)
 {
-    m_gestionnaireDialogue=g;
+    m_gestionnaireDialogue=*g;
 }
 
 void ConnexionInscription::on_bouttonConnexion_clicked()
 {
     Connexion* m = new Connexion(this);
-    m->attachGestionnaireDialogue(m_gestionnaireDialogue);
+    m->attachGestionnaireDialogue(&m_gestionnaireDialogue);
     m->show();
     this->hide();
 }
@@ -28,7 +28,7 @@ void ConnexionInscription::on_bouttonConnexion_clicked()
 void ConnexionInscription::on_bouttonInscription_clicked()
 {
     Inscription* m = new Inscription(this);
-    m->attachGestionnaireDialogue(m_gestionnaireDialogue);
+    m->attachGestionnaireDialogue(&m_gestionnaireDialogue);
     m->show();
     this->hide();
 }

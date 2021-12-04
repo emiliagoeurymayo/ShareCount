@@ -84,7 +84,7 @@
       </spacer>
      </item>
      <item row="10" column="1">
-      <widget class="QPushButton" name="boutton_Compte">
+      <widget class="QPushButton" name="boutton_connexion">
        <property name="text">
         <string>Connexion</string>
        </property>
@@ -135,7 +135,7 @@
  <tabstops>
   <tabstop>lineEdit_eMail</tabstop>
   <tabstop>lineEdit_Mdp</tabstop>
-  <tabstop>boutton_Compte</tabstop>
+  <tabstop>boutton_connexion</tabstop>
  </tabstops>
  <resources/>
  <connections/>

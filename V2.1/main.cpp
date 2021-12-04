@@ -16,11 +16,11 @@ int main(int argc, char *argv[])
     qDebug() << "Sharecount ok";
     ServeurMail sM;
     qDebug() << "ServeurMail ok";
-    GestionnaireDialogue g(sC,sM);
+    GestionnaireDialogue g(sC,sM,gd);
     qDebug() << "gestionnaireDiag ok";
     ConnexionInscription c;
     qDebug() << "ConnexionInscription ok";
-    c.attachGestionnaireDialogue(g);
+    c.attachGestionnaireDialogue(&g);
     c.show();
 
 //    std::cout << "Bonjour, entrez votre nom :\n";

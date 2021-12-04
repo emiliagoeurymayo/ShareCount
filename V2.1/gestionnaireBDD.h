@@ -49,6 +49,8 @@ public:
         }
     }
 
+    gestionnaireBDD(){}
+
     void createDB(){
         qDebug() << "CreateDB";
         if(this->db.open()){

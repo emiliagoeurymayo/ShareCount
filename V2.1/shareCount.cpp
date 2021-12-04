@@ -2,6 +2,7 @@
 #include <list>
 #include <iostream>
 #include "shareCount.h"
+#include "compte.h"
 
 /** @brief Classe Sharecount
  **

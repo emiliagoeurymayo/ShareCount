@@ -8,6 +8,8 @@ Inscription::Inscription(QWidget *parent)
 {
     ui->setupUi(this);
     this->setWindowTitle("Inscription");
+    ui->buttonmailvalide->setChecked(true);
+    qApp->setStyleSheet("QGroupBox  {  border: 0px;}");
 }
 
 Inscription::~Inscription()
@@ -48,20 +50,18 @@ void Inscription::on_boutton_Compte_clicked()
     mdp=this->getLineEditMdp().toStdString();
     prenom=this->getLineEditPrenom().toStdString();
     pseudo=this->getLineEditPseudo().toStdString();
-    m_gestionnaireDialogue.verifInformations(nom,mail,mdp,prenom,pseudo);
+    m_gestionnaireDialogue.verifInformations(nom,mail,mdp,prenom,pseudo,ui->buttonmailvalide->isChecked());
 }
 
-void Inscription::attachGestionnaireDialogue(GestionnaireDialogue g)
+void Inscription::attachGestionnaireDialogue(GestionnaireDialogue *g)
 {
-    m_gestionnaireDialogue=g;
+    m_gestionnaireDialogue=*g;
 }
 
 
 void Inscription::on_retourAccueil_clicked()
 {
-    ConnexionInscription* m = (ConnexionInscription*)QWidget::parentWidget();
-    m->attachGestionnaireDialogue(m_gestionnaireDialogue);
-    this->close();
     QWidget::parentWidget()->show();
+    this->close();
 }
 

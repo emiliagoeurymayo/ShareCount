@@ -4,17 +4,18 @@
 #include <string>
 #include "serveurMail.h"
 #include "shareCount.h"
-#include "serveurMail.h"
 #include "gestionnaireBDD.h"
 
 class GestionnaireDialogue{
 public:
 
     GestionnaireDialogue(ShareCount sharecount,ServeurMail serveurmail,gestionnaireBDD gbdd);//Constructeur
+    GestionnaireDialogue();//Def constructor
     virtual ~GestionnaireDialogue();
-    void verifInformations(std::string nom,std::string email,std::string mdp,std::string prenom,std::string pseudo);
-    void envoiEmail();
+    void verifInformations(std::string nom,std::string email,std::string mdp,std::string prenom,std::string pseudo,bool mailvalide);
+    void envoiEmail(bool mailvalide);
     void verifValidationEmail();
+    bool verifConnexion(std::string email,std::string mdp);
 
 private:
 

@@ -17,12 +17,12 @@ public:
     ~Connexion();
     QString getLineEditeMail();
     QString getLineEditMdp();
-    void attachGestionnaireDialogue(GestionnaireDialogue g);
+    void attachGestionnaireDialogue(GestionnaireDialogue *g);
 
 private slots:
-    void on_boutton_Compte_clicked();
-
     void on_retourAccueil_clicked();
+
+    void on_boutton_connexion_clicked();
 
 private:
     Ui::Connexion *ui;
