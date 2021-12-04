@@ -2,7 +2,7 @@
 #define CAGNOTTE_H
 
 #include <string>
-#include <vector>
+#include <QList>
 
 
 
@@ -22,7 +22,7 @@ class Cagnotte
 {
     /// @brief Constructeur
     public:
-        Cagnotte(std::string nom);
+        Cagnotte(std::string nom, QList<std::string> list);
 
         /// @brief Destructeur
         virtual ~Cagnotte();
@@ -41,7 +41,7 @@ class Cagnotte
         void setNom(std::string nom);
 
         /// @brief Accesseur de la liste des participants
-        //std::vector getParticipants();
+        QList<std::string> getParticipants();
 
         /// @brief Accesseur d'un participant de la liste
         std::string getParticipant(int index);
@@ -55,7 +55,7 @@ class Cagnotte
     private:
 
         std::string m_nom;
-        //std::vector m_participants;
+        QList<std::string> m_participants;
         int m_montant;
 
 

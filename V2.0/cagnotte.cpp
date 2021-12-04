@@ -18,10 +18,10 @@
 
 /// @param string nom: Le nom de la cagnotte.
 /// @brief Constructeur Cagnotte.
-Cagnotte::Cagnotte(std::string nom)
+Cagnotte::Cagnotte(std::string nom, QList<std::string> list)
 {
     m_nom = nom;
-    //m_participants = vector();
+    m_participants = list;
     m_montant = 0; // Montant par défaut
 }
 
@@ -63,9 +63,8 @@ void Cagnotte::setNom(std::string nom)
     m_nom = nom;
 }
 
-/*
 /// @brief Accesseur de la liste des participants
-std::vector Cagnotte::getParticipants()
+QList<std::string> Cagnotte::getParticipants()
 {
     return m_participants;
 }
@@ -73,18 +72,18 @@ std::vector Cagnotte::getParticipants()
 /// @brief Accesseur d'un participant de la liste
 std::string Cagnotte::getParticipant(int index)
 {
-    return m_participants.at(index);
+    return m_participants.value(index);
 }
 
 /// @brief Ajoute un participant à la liste
 void Cagnotte::ajouterParticipant(std::string participant)
 {
-    m_participants.push_back(participant);
+    m_participants.append(participant);
 }
 
 /// @brief Retire un participant de la liste
-void retirerParticipant(int index)
+void Cagnotte::retirerParticipant(int index)
 {
-    m_participant.erase(index);
+    m_participants.removeAt(index);
 }
-*/
+

@@ -3,10 +3,10 @@
 #include "compte.h"
 #include "comptePartage.h"
 
-ComptePartage::ComptePartage(std::string nom)
+ComptePartage::ComptePartage(std::string nom, QList<std::string> list)
 {
     m_nom = nom;
-    //m_participants = vector();
+    m_participants = list;
 }
 
 ComptePartage::~ComptePartage()
@@ -25,9 +25,9 @@ void ComptePartage::setNom(std::string nom)
 {
     m_nom = nom;
 }
-/*
+
 /// @brief Accesseur de la liste des participants
-std::vector ComptePartage::getParticipants()
+QList<std::string> ComptePartage::getParticipants()
 {
     return m_participants;
 }
@@ -35,18 +35,18 @@ std::vector ComptePartage::getParticipants()
 /// @brief Accesseur d'un participant de la liste
 std::string ComptePartage::getParticipant(int index)
 {
-    m_participants.at(index);
+    m_participants.value(index);
 }
 
 /// @brief Ajoute un participant à la liste
 void ComptePartage::ajouterParticipant(std::string participant)
 {
-    m_participants.push_back(participant);
+    m_participants.append(participant);
 }
 
 /// @brief Retire un participant de la liste
 void ComptePartage::retirerParticipant(int index)
 {
-    m_participants.erase(index);
+    m_participants.removeAt(index);
 }
-*/
+
