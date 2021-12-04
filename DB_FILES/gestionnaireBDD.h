@@ -79,14 +79,37 @@ public:
                 this->nbUtil = query4.value(0).toInt();
                 qDebug() << "max idutil" << query4.value(0).toInt();
             }
+
+            QSqlQuery query5(this->db);
+            query5.exec("select max(idcompte) from compte");
+            if(query5.next()){
+                this->nbCompte = query5.value(0).toInt();
+                qDebug() << "max idcompte" << query5.value(0).toInt();
+            }
+
+            QSqlQuery query6(this->db);
+            query6.exec("select max(idcagnotte) from cagnotte");
+            if(query6.next()){
+                this->nbCagnotte = query6.value(0).toInt();
+                qDebug() << "maxidcagnotte" << query6.value(0).toInt();
+            }
+
             addUtil("pre","nomnom","prenom.nom@test.fr","mdp", "1234567891234567891");
             addUtil("admin","admin","admin@test.fr","mdp1","1234567891234567891");
             addUtil("test","test","test@test.fr","mdp2","1234567891234567891");
-            addComptePartage("Vacances", "1,2,3");
-            addComptePartage("Soiree 29/11", "1,2,3")
-            addCagnotte(2, 0, "Cadeau maman", "1,2,3")
+
+            if(this->nbCompte == 0){
+                addComptePartage("Vacances", "1,2,3");
+                addComptePartage("Soiree 29/11", "1,2,3");
+            }
+            if(this->nbCagnotte == 0){
+                addCagnotte(2, 0, "Cadeau maman", "1,2,3");
+                addCagnotte(1, 0, "Noel", "2,3");
+
+            }
             addDettes(1, 1, 2, 30);
             addDettes(2, 3, 2, 1);
+            addDettes(3, 1, 3, 80);
         }
     }
 
@@ -132,26 +155,45 @@ public:
 
     //idcompte integer primary key, nom varchar(30), listePart varchar(30)
     bool addComptePartage(std::string nom, std::string listePart){
-        bool result = false;
-        nbCompte++;
-        std::string stc = std::to_string(nbCompte);
-        QString requete ="insert into compte values("+QString::fromStdString(stc)+","+QString::fromStdString(nom)+","+QString::fromStdString(listePart)+")";
-        QSqlQuery query(requete, db);
-        if(query.exec()){
-            std::cout << "add compte part ok" << std::endl;
-            result = true;
-        }
-        return result;
+        qDebug()  << "addCompte";
+        this->nbCompte++;
+        QSqlQuery query(this->db);
+        query.prepare("INSERT INTO compte(idcompte,nom,listePart)"
+                      "VALUES(?,?,?)");
+        query.addBindValue(this->nbCompte);
+        query.addBindValue(QString::fromStdString(nom));
+        query.addBindValue(QString::fromStdString(listePart));
+
+        return query.exec();
     }
 
 
     //idcagnotte integer primary key, idRespo integer, montantDispo integer ,nom varchar(30), listePart varchar(30)
     bool addCagnotte(int respo, int montant, std::string nom, std::string listePart){
-        return true;
+        qDebug() << "addCagnotte";
+        this->nbCagnotte++;
+        QSqlQuery query(this->db);
+        query.prepare("INSERT INTO cagnotte(idcagnotte,idRespo,montantDispo,nom,listePart)""VALUES(?,?,?,?,?)");
+        query.addBindValue(this->nbCagnotte);
+        query.addBindValue(respo);
+        query.addBindValue(montant);
+        query.addBindValue(QString::fromStdString(nom));
+        query.addBindValue(QString::fromStdString(listePart));
+
+        return query.exec();
     }
+
+
     //idcompte int primary key, util1 int, util2 int, dette int
     bool addDettes(int idcompte,int util1, int util2, int dette){
-        return true;
+        qDebug() << "addDettes";
+        QSqlQuery query(this->db);
+        query.prepare("INSERT INTO dettes(idcompte, util1, util2, dette)""VALUES(?,?,?,?)");
+        query.addBindValue(idcompte);
+        query.addBindValue(util1);
+        query.addBindValue(util2);
+        query.addBindValue(dette);
+        return query.exec();
     }
 
 
