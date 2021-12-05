@@ -24,10 +24,10 @@ private:
 
 public:
     //creation db
-    gestionnaireBDD(QString s){
+    gestionnaireBDD(){
         qDebug() << "Constr";
         this->db = QSqlDatabase::addDatabase("QSQLITE");
-        this->db.setDatabaseName(s);
+        this->db.setDatabaseName("/Users/emiliagoeury/Desktop/Univ/L3_V2/cpoa/ShareCount/DB_FILES/test2.db");
         this->db.open();
         try{
             if(this->db.open()){
@@ -252,6 +252,18 @@ public:
             map = this->getUtil(query.value(0).toInt());
         }
         return map;
+    }
+
+    bool informationConnexionValide(std::string email, std::string mdp){
+        QSqlQuery query(this->db);
+        bool result = false;
+        query.prepare("SELECT * FROM utilisateur WHERE email='"+QString::fromStdString(email)+"' AND mdp='"+QString::fromStdString(mdp)+"'");
+        query.exec();
+        if(query.next()){
+            result = true;
+            qDebug() << query.value(0).toString() << query.value(1).toString();
+        }
+        return result;
     }
 };
 #endif // GESTIONNAIREBDD_H

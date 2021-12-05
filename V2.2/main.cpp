@@ -10,7 +10,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    gestionnaireBDD gd("a.db");
+    gestionnaireBDD gd; ;
     qDebug() << "DB OK";
     ShareCount sC;
     qDebug() << "Sharecount ok";
