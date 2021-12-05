@@ -196,50 +196,61 @@ public:
         return query.exec();
     }
 
+    QMap <QString, QString> getUtil(int id){
+        QSqlQuery query(this->db);
+        QMap <QString, QString> result;
+        query.prepare("SELECT prenom,nom FROM utilisateur WHERE idutil ="+QString::fromStdString(std::to_string(id)));
+        query.exec();
+        while(query.next()){
+            result.insert(query.value(0).toString(), query.value(1).toString());
+            //qDebug() << query.value(0).toString() << query.value(1).toString();
+        }
+        return result;
+    }
 
     //typeCompte = 1 comptepartagé || 2 Cagnotte
     //id = numéro du compte
-    QMap<QString, QString> getParticipant(int typeCompte, int id){
+    QMap<QString, QString> getParticipants(int typeCompte, int id){
 
         QString part;
-        if(typeCompte == 1){
-            QSqlQuery query(db);
-            query.prepare("SELECT listePart FROM compte WHERE idcompte ="+QString::fromStdString(std::to_string(id)));
-            query.bindValue(0, part);
-            query.exec();
+        QSqlQuery query(this->db);
 
-        }else {
-            QSqlQuery query(db);
-            query.prepare("SELECT listePart FROM cagnotte WHERE idcompte ="+QString::fromStdString(std::to_string(id)));
-            QString part;
-            query.bindValue(0, part);
-            query.exec();
+        if(typeCompte == 1){
+            query.exec("SELECT listePart FROM compte WHERE idcompte="+QString::fromStdString(std::to_string(id)));
+            if(query.next()){
+                part = query.value(0).toString();
+            }
+        }else if(typeCompte == 2){
+            query.exec("SELECT listePart FROM cagnotte WHERE idcagnotte="+QString::fromStdString(std::to_string(id)));
+            if(query.next()){
+                part = query.value(0).toString();
+            }
         }
 
         QStringList list = part.split(",");
+        qDebug() << "liste" << list;
         QMap<QString , QString> map;
 
-        QSqlQuery query1(db);
 
-        QString stc1;
-        QString stc2;
-
-        for ( const auto& i : list  ){
-            query1.prepare("Select prenom, nom FROM utilisateur WHERE idutil ="+list.at(list.indexOf(i)));
-            query1.exec();
-            stc1 = query1.value(0).toString();
-            stc2 = query1.value(1).toString();
-            map.insert(stc1, stc2);
+        for ( const auto& i : list){
+            query.exec("SELECT prenom,nom FROM utilisateur WHERE idutil ="+i);
+            if(query.next()){
+                map.insert(query.value(0).toString(), query.value(1).toString());
+                //qDebug() << query.value(0).toString() << query.value(1).toString();
+            }
         }
 
-        /*for (int i; i < list.size(); i++){
-            query1.prepare("Select prenom, nom FROM utilisateur WHERE idutil ="+list.at(list.indexOf(i)));
-            query1.exec();
-            stc1 = query1.value(0).toString();
-            stc2 = query1.value(1).toString();
-            map.insert(stc1, stc2);
-        }*/
+        return map;
+    }
 
+    QMap <QString, QString> getRespo(int idcagnotte){
+        QSqlQuery query(this->db);
+        QMap<QString , QString> map;
+
+        query.exec("SELECT idrespo FROM cagnotte WHERE idcagnotte="+QString::fromStdString(std::to_string(idcagnotte)));
+        if(query.next()){
+            map = this->getUtil(query.value(0).toInt());
+        }
         return map;
     }
 };

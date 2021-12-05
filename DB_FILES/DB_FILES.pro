@@ -22,7 +22,8 @@ FORMS += \
 DISTFILES += \
     bdd.sqlite \
     database.db \
-    test.db
+    test.db \
+    test2.db
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
