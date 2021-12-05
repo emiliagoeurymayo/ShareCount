@@ -27,7 +27,7 @@ public:
     gestionnaireBDD(){
         qDebug() << "Constr";
         this->db = QSqlDatabase::addDatabase("QSQLITE");
-        this->db.setDatabaseName("/Users/emiliagoeury/Desktop/Univ/L3_V2/cpoa/ShareCount/DB_FILES/test2.db");
+        this->db.setDatabaseName("/Users/emiliagoeury/Desktop/Univ/L3_V2/cpoa/ShareCount/V2.2/database.db");
         this->db.open();
         try{
             if(this->db.open()){
@@ -73,6 +73,12 @@ public:
                 qDebug() << "cagnotte";
                 qDebug() << query3.lastError();
             }
+
+            QSqlQuery queryHistorique(this->db);
+            if(!queryHistorique.exec("create table if not exists historique(idcompte int primary key, codeAction int, util1 int, util2 int)")){
+                qDebug() << "Historique";
+                qDebug() << queryHistorique.lastError();
+            }
             QSqlQuery query4(this->db);
             query4.exec("select max(idutil) from utilisateur");
             if(query4.next()){
@@ -87,29 +93,31 @@ public:
                 qDebug() << "max idcompte" << query5.value(0).toInt();
             }
 
-            QSqlQuery query6(this->db);
-            query6.exec("select max(idcagnotte) from cagnotte");
-            if(query6.next()){
-                this->nbCagnotte = query6.value(0).toInt();
-                qDebug() << "maxidcagnotte" << query6.value(0).toInt();
+            QSqlQuery query7(this->db);
+            query7.exec("select max(idcagnotte) from cagnotte");
+            if(query7.next()){
+                this->nbCagnotte = query7.value(0).toInt();
+                qDebug() << "maxidcagnotte" << query7.value(0).toInt();
             }
 
-            addUtil("pre","nomnom","prenom.nom@test.fr","mdp", "1234567891234567891");
-            addUtil("admin","admin","admin@test.fr","mdp1","1234567891234567891");
-            addUtil("test","test","test@test.fr","mdp2","1234567891234567891");
+            if(this->nbUtil == 0){
+                addUtil("pre","nomnom","prenom.nom@test.fr","mdp", "1234567891234567891");
+                addUtil("admin","admin","admin@test.fr","mdp1","1234567891234567891");
+                addUtil("test","test","test@test.fr","mdp2","1234567891234567891");
+            }
 
             if(this->nbCompte == 0){
                 addComptePartage("Vacances", "1,2,3");
                 addComptePartage("Soiree 29/11", "1,2,3");
+                addDettes(1, 1, 2, 30);
+                addDettes(2, 3, 2, 1);
+                addDettes(3, 1, 3, 80);
             }
+
             if(this->nbCagnotte == 0){
                 addCagnotte(2, 0, "Cadeau maman", "1,2,3");
                 addCagnotte(1, 0, "Noel", "2,3");
-
             }
-            addDettes(1, 1, 2, 30);
-            addDettes(2, 3, 2, 1);
-            addDettes(3, 1, 3, 80);
         }
     }
 
@@ -123,6 +131,17 @@ public:
         qDebug() << "utilExist =" << result;
         return result;
     }
+
+    bool informationConnexionValide(std::string email,std::string mdp){
+            bool result = false;
+            QSqlQuery query(this->db);
+            query.exec("SELECT * from utilisateur where email ='"+QString::fromStdString(email)+"' AND mdp ='"+QString::fromStdString(mdp)+"'");
+            if(query.next()){
+                result = true;
+            }
+            qDebug() << "informations de connexions correct =" << result;
+            return result;
+        }
 
     //idutil integer primary key, prenom varchar(20),nom varchar(20),email varchar(50), mdp varchar(20), payement varchar(19)
     bool addUtil(std::string prenom, std::string nom, std::string email, std::string mdp, std::string payement){
@@ -254,16 +273,14 @@ public:
         return map;
     }
 
-    bool informationConnexionValide(std::string email, std::string mdp){
+    bool addHistorique(int idcompte, int codeaction, int util1, int util2){
         QSqlQuery query(this->db);
-        bool result = false;
-        query.prepare("SELECT * FROM utilisateur WHERE email='"+QString::fromStdString(email)+"' AND mdp='"+QString::fromStdString(mdp)+"'");
-        query.exec();
-        if(query.next()){
-            result = true;
-            qDebug() << query.value(0).toString() << query.value(1).toString();
-        }
-        return result;
+        return query.prepare("INSERT INTO historique(idcompte, codeAction, util1, util2)" "VALUES(?,?,?,?)");
+        query.addBindValue(idcompte);
+        query.addBindValue(codeaction);
+        query.addBindValue(util2);
+        query.addBindValue(util2);
+        return query.exec();
     }
 };
 #endif // GESTIONNAIREBDD_H
