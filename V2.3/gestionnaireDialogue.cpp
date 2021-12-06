@@ -49,9 +49,27 @@ void GestionnaireDialogue::verifValidationEmail(){
 }
 
 int GestionnaireDialogue::verifConnexion(std::string email,std::string mdp){
+    m_email = email;
+    m_mdp = mdp;
     return m_gbdd.informationConnexionValide(email,mdp);
 }
 
 QMap<QString,QString> GestionnaireDialogue::identifierUtilisateur(int id){
     return m_gbdd.getUtil(id);
+}
+
+QMap<QString,QString> GestionnaireDialogue::getParticipants(int typeCompte, int idCompte){
+    return m_gbdd.getParticipants(typeCompte, idCompte);
+}
+
+QString GestionnaireDialogue::getNomCompte(int id){
+    return m_gbdd.getNomCompte(id);
+}
+
+QMap<int, QString> GestionnaireDialogue::getListeCompte(){
+    return m_gbdd.getListeCompte(m_email);
+}
+
+bool GestionnaireDialogue::addPartCompt(QString text, int idCompte){
+    return m_gbdd.addPartCompt(text,idCompte);
 }

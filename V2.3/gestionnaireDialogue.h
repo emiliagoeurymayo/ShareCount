@@ -17,7 +17,10 @@ public:
     void verifValidationEmail();
     int verifConnexion(std::string email,std::string mdp);
     QMap<QString,QString> identifierUtilisateur(int id);
-
+    QMap<QString,QString> getParticipants(int typeCompte, int idCompte);
+    QString getNomCompte(int id);
+    QMap<int, QString> getListeCompte();
+    bool addPartCompt(QString text, int idCompte);
 private:
 
     ShareCount m_sharecount;

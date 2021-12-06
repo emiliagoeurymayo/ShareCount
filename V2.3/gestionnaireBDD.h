@@ -25,9 +25,8 @@ private:
 public:
     //creation db
     gestionnaireBDD(){
-        qDebug() << "Constr";
         this->db = QSqlDatabase::addDatabase("QSQLITE");
-        this->db.setDatabaseName("a.db");
+        this->db.setDatabaseName("/Users/emiliagoeury/Desktop/Univ/L3_V2/cpoa/ShareCount/V2.3/database.db");
         this->db.open();
         try{
             if(this->db.open()){
@@ -50,7 +49,6 @@ public:
     }
 
     void createDB(){
-        qDebug() << "CreateDB";
         if(this->db.open()){
             QSqlQuery query(this->db);
             if(!query.exec("create table if not exists utilisateur(idutil int primary key, prenom varchar(20),nom varchar(20),email varchar(50), mdp varchar(20), payement varchar(19))")){
@@ -83,21 +81,21 @@ public:
             query4.exec("select max(idutil) from utilisateur");
             if(query4.next()){
                 this->nbUtil = query4.value(0).toInt();
-                qDebug() << "max idutil" << query4.value(0).toInt();
+                //qDebug() << "max idutil" << query4.value(0).toInt();
             }
 
             QSqlQuery query5(this->db);
             query5.exec("select max(idcompte) from compte");
             if(query5.next()){
                 this->nbCompte = query5.value(0).toInt();
-                qDebug() << "max idcompte" << query5.value(0).toInt();
+                //qDebug() << "max idcompte" << query5.value(0).toInt();
             }
 
             QSqlQuery query7(this->db);
             query7.exec("select max(idcagnotte) from cagnotte");
             if(query7.next()){
                 this->nbCagnotte = query7.value(0).toInt();
-                qDebug() << "maxidcagnotte" << query7.value(0).toInt();
+                //qDebug() << "maxidcagnotte" << query7.value(0).toInt();
             }
 
             if(this->nbUtil == 0){
@@ -128,7 +126,7 @@ public:
         if(query.next()){
             result = true;
         }
-        qDebug() << "utilExist =" << result;
+        //qDebug() << "utilExist =" << result;
         return result;
     }
 
@@ -145,11 +143,10 @@ public:
 
     //idutil integer primary key, prenom varchar(20),nom varchar(20),email varchar(50), mdp varchar(20), payement varchar(19)
     bool addUtil(std::string prenom, std::string nom, std::string email, std::string mdp, std::string payement){
-        qDebug() << "addUtil";
         bool result = false;
         QSqlQuery query(this->db);
         this->nbUtil++;
-        qDebug() << "nbUtil :" << this->nbUtil;
+        //qDebug() << "nbUtil :" << this->nbUtil;
         if(!utilExist(email)){
             query.prepare("INSERT INTO utilisateur (idutil, prenom, nom, email, mdp, payement) "
                           "VALUES (?, ?, ?, ?, ?, ?)");
@@ -174,7 +171,7 @@ public:
 
     //idcompte integer primary key, nom varchar(30), listePart varchar(30)
     bool addComptePartage(std::string nom, std::string listePart){
-        qDebug()  << "addCompte";
+        //qDebug()  << "addCompte";
         this->nbCompte++;
         QSqlQuery query(this->db);
         query.prepare("INSERT INTO compte(idcompte,nom,listePart)"
@@ -189,7 +186,7 @@ public:
 
     //idcagnotte integer primary key, idRespo integer, montantDispo integer ,nom varchar(30), listePart varchar(30)
     bool addCagnotte(int respo, int montant, std::string nom, std::string listePart){
-        qDebug() << "addCagnotte";
+        //qDebug() << "addCagnotte";
         this->nbCagnotte++;
         QSqlQuery query(this->db);
         query.prepare("INSERT INTO cagnotte(idcagnotte,idRespo,montantDispo,nom,listePart)""VALUES(?,?,?,?,?)");
@@ -205,7 +202,7 @@ public:
 
     //idcompte int primary key, util1 int, util2 int, dette int
     bool addDettes(int idcompte,int util1, int util2, int dette){
-        qDebug() << "addDettes";
+        //qDebug() << "addDettes";
         QSqlQuery query(this->db);
         query.prepare("INSERT INTO dettes(idcompte, util1, util2, dette)""VALUES(?,?,?,?)");
         query.addBindValue(idcompte);
@@ -282,5 +279,71 @@ public:
         query.addBindValue(util2);
         return query.exec();
     }
+
+    QString getNomCompte(int id){
+            QString result;
+            QSqlQuery query(this->db);
+            query.exec("SELECT nom FROM compte WHERE idcompte="+QString::fromStdString(std::to_string(id)));
+            if(query.next()){
+                result = query.value(0).toString();
+            }
+           return result;
+        }
+
+        bool addPartCompt(QString email, int id){
+            bool result = false;
+            std::string stc = email.toStdString();
+            if(utilExist(stc)){
+                qDebug() << "util exist";
+                QSqlQuery query(this->db);
+                query.prepare("SELECT listePart FROM compte WHERE idcompte="+QString::fromStdString(std::to_string(id)));
+                query.exec();
+                if(query.next()){
+                    qDebug() << "select listPart";
+                    QString stc = query.value(0).toString();
+                    query.exec("SELECT idutil FROM utilisateur WHERE email='"+email+"'");
+                    if(query.next()){
+                        qDebug() << "select idutil";
+                        if(!stc.contains(query.value(0).toString())){
+                            qDebug() <<"not contains";
+                            stc.append(","+query.value(0).toString());
+                            if(query.exec("UPDATE compte SET listePart ='"+stc+"' WHERE idcompte="+QString::fromStdString(std::to_string(id)))){
+                                result = true;
+                                qDebug() << "util ajouté";
+                            }
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        QMap<int, QString> getListeCompte(std::string email){
+            qDebug() << "getListCompte";
+            QString mail = QString::fromStdString(email);
+            QString list;
+            QMap<int, QString> map;
+            QSqlQuery query(this->db);
+            qDebug() << "SELECT idutil FROM utilisateur WHERE email='"+mail+"'";
+            query.prepare("SELECT idutil FROM utilisateur WHERE email='"+mail+"'");
+            query.exec();
+            if(query.next()){
+                qDebug() << "gestListCompte prem reque";
+                QString id = query.value(0).toString();
+                query.prepare("SELECT listePart,nom,idcompte FROM compte");
+                query.exec();
+                while(query.next()){
+                    qDebug() << "2 reuqte listCompte";
+                    QString stc = query.value(0).toString();
+                    if(stc.contains(id)){
+                        list = query.value(1).toString();
+                        map.insert(query.value(2).toInt(), list);
+                        qDebug() << "Ajoute" << query.value(2).toString() <<query.value(1).toString() << query.value(0).toString();
+                    }
+                }
+            }
+            return map;
+        }
+
 };
 #endif // GESTIONNAIREBDD_H

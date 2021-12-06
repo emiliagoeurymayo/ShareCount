@@ -17,8 +17,8 @@
    <widget class="QLabel" name="Prenom">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>120</y>
+      <x>10</x>
+      <y>10</y>
       <width>261</width>
       <height>171</height>
      </rect>
@@ -35,8 +35,8 @@
    <widget class="QLabel" name="Nom">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>290</y>
+      <x>340</x>
+      <y>0</y>
       <width>261</width>
       <height>171</height>
      </rect>
@@ -50,6 +50,16 @@
      <string>TextLabel</string>
     </property>
    </widget>
+   <widget class="QListView" name="listCompte">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>150</y>
+      <width>256</width>
+      <height>192</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -57,7 +67,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

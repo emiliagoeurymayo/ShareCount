@@ -13,6 +13,7 @@ SOURCES += \
     accueilutilisateur.cpp \
     compte.cpp \
     comptePartage.cpp \
+    compteaff.cpp \
     connexion.cpp \
     gestionnaireDialogue.cpp \
     serveurMail.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     cagnotte.h \
     compte.h \
     comptePartage.h \
+    compteaff.h \
     connexion.h \
     gestionnaireDialogue.h \
     serveurMail.h \
@@ -35,6 +37,7 @@ HEADERS += \
     gestionnaireBDD.h
 
 FORMS += \
+    compteAff.ui \
     connexion.ui \
     connexioninscription.ui \
     accueilutilisateur.ui \

@@ -9,7 +9,8 @@ MainWindow::MainWindow(gestionnaireBDD db,int id, QWidget *parent)
 {
     ui->setupUi(this);
     model = new QStringListModel(this);
-    QMap <QString, QString> map = db.getParticipants(1,1);
+    this->idCompte = id;
+    QMap <QString, QString> map = db.getParticipants(this->idCompte,this->idCompte);
     QStringList stc;
 
     for(const auto &e : map.toStdMap()){
@@ -18,7 +19,7 @@ MainWindow::MainWindow(gestionnaireBDD db,int id, QWidget *parent)
     }
 
     this->db = db;
-    this->idCompte = id;
+
     model->setStringList(stc);
     QString str = db.getNomCompte(1);
     ui->liste->setModel(model);
@@ -41,5 +42,16 @@ void MainWindow::on_addPart_clicked()
                                             "Adresse Email du nouveau participant", QLineEdit::Normal);
 
     qDebug() << this->db.addPartCompt(text, this->idCompte);
+
+    QMap <QString, QString> map = db.getParticipants(this->idCompte,this->idCompte);
+    QStringList stc;
+
+    for(const auto &e : map.toStdMap()){
+     //qDebug() << e.first << "," << e.second << '\n';
+           stc.append(e.first+" "+e.second);
+    }
+    model->setStringList(stc);
+    ui->liste->setModel(model);
+    update();
 }
 

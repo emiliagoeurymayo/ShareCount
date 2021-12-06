@@ -7,7 +7,7 @@ int main(int argc, char *argv[]){
     //qDebug() << QSqlDatabase::drivers()
 
     gestionnaireBDD g;
-    g.addUtil("emilia", "goeury", "lia@gmail.fr", "motdepasse", "1234567891234567891");
+    g.addUtil("mai", "chel", "ah@gmail.fr", "motdepasse", "1234567891234567891");
     g.addComptePartage("nouvel an", "1,2");
     g.addCagnotte(3, 100, "Grèce" ,"1,3");
     g.addDettes(2, 1, 3, 30);
