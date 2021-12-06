@@ -25,7 +25,7 @@ void AccueilUtilisateur::identifierUtilisateur(QMap <QString, QString> q)
     QString nomprenom;
 
     for(const auto &e : m_utilisateur.toStdMap()){
-            nomprenom.append(e.first+" "+e.second);
+            nomprenom.append(e.first+"\n"+e.second);
         }
 
     ui->NomPrenom->setText("Bonjour, "+nomprenom);
