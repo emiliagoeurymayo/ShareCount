@@ -80,5 +80,6 @@ bool ServeurMail::is_valid(std::string email)
         return 0;
 
     // Si le point est présent à la fin (rien aprés .)
-    return !(point >= (email.length() - 1));
+    std::string::size_type temp_point = point;
+    return !(temp_point >= (email.length() - 1));
 }

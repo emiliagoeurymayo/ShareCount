@@ -35,7 +35,7 @@ QList<std::string> ComptePartage::getParticipants()
 /// @brief Accesseur d'un participant de la liste
 std::string ComptePartage::getParticipant(int index)
 {
-    m_participants.value(index);
+    return m_participants.value(index);
 }
 
 /// @brief Ajoute un participant à la liste
