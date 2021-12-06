@@ -20,12 +20,17 @@ GestionnaireDialogue::~GestionnaireDialogue(){}
 
 void GestionnaireDialogue::verifInformations(std::string nom,std::string email,std::string mdp,std::string prenom,std::string pseudo,bool mailvalide){
     if(!nom.empty() && !email.empty() && !mdp.empty() && !prenom.empty() && !pseudo.empty()){
-        m_nom=nom;
-        m_prenom=prenom;
-        m_email=email;
-        m_pseudo=pseudo;
-        m_mdp=mdp;
-        this->envoiEmail(mailvalide);
+        if(m_serveurmail.is_valid(email)){
+            m_nom=nom;
+            m_prenom=prenom;
+            m_email=email;
+            m_pseudo=pseudo;
+            m_mdp=mdp;
+            this->envoiEmail(mailvalide);
+        }
+        else{
+            std::cout << "eMail saisi invalide" << std::endl;
+        }
     }
     else{
         std::cout << "Un des champs est invalide (EmptyError)" << std::endl;

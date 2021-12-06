@@ -28,6 +28,7 @@ public:
     void ajouterEmail(std::string email);
     ///@ Recupère le status d'un email
     bool getStatusEmail(std::string email);
+    bool is_valid(std::string email);
 
 private:
 
