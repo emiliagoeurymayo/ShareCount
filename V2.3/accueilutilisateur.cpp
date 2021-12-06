@@ -22,8 +22,14 @@ void AccueilUtilisateur::identifierUtilisateur(QMap <QString, QString> q)
 {
     m_utilisateur=q;
 
-    ui->Prenom->setText("Bonjour, "+m_utilisateur.first());
-    ui->Nom->setText(m_utilisateur.last());
+    QString nomprenom;
+
+    for(const auto &e : m_utilisateur.toStdMap()){
+            nomprenom.append(e.first+"\n"+e.second);
+        }
+
+    ui->NomPrenom->setText("Bonjour, "+nomprenom);
+    //ui->Nom->setText(nomprenom.takeAt(0));
 
     model = new QStringListModel(this);
     QMap<int, QString> map = m_gestionnaireDialogue.getListeCompte();
