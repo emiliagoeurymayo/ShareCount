@@ -6,8 +6,8 @@
 int main(int argc, char *argv[]){
     //qDebug() << QSqlDatabase::drivers()
 
-    gestionnaireBDD g("/Users/emiliagoeury/Desktop/Univ/L3_V2/cpoa/ShareCount/DB_FILES/test2.db");
-    g.addUtil("emilia", "goeury", "emilia@gmail.fr", "motdepasse", "1234567891234567891");
+    gestionnaireBDD g;
+    g.addUtil("emilia", "goeury", "lia@gmail.fr", "motdepasse", "1234567891234567891");
     g.addComptePartage("nouvel an", "1,2");
     g.addCagnotte(3, 100, "Grèce" ,"1,3");
     g.addDettes(2, 1, 3, 30);
@@ -26,8 +26,8 @@ int main(int argc, char *argv[]){
     }
 
 
-    /*QApplication a(argc, argv);
-    MainWindow w;
+    QApplication a(argc, argv);
+    MainWindow w(g,1);
     w.show();
-    return a.exec();*/
+    return a.exec();
 }

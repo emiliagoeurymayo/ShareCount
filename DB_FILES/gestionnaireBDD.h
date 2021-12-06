@@ -24,10 +24,10 @@ private:
 
 public:
     //creation db
-    gestionnaireBDD(QString s){
+    gestionnaireBDD(){
         qDebug() << "Constr";
         this->db = QSqlDatabase::addDatabase("QSQLITE");
-        this->db.setDatabaseName(s);
+        this->db.setDatabaseName("/Users/emiliagoeury/Desktop/Univ/L3_V2/cpoa/ShareCount/DB_FILES/test.db");
         this->db.open();
         try{
             if(this->db.open()){
@@ -252,6 +252,42 @@ public:
             map = this->getUtil(query.value(0).toInt());
         }
         return map;
+    }
+
+    QString getNomCompte(int id){
+        QString result;
+        QSqlQuery query(this->db);
+        query.exec("SELECT nom FROM compte WHERE idcompte="+QString::fromStdString(std::to_string(id)));
+        if(query.next()){
+            result = query.value(0).toString();
+        }
+       return result;
+    }
+
+    bool addPartCompt(QString email, int id){
+        bool result = false;
+        std::string stc = email.toStdString();
+        if(utilExist(stc)){
+            QSqlQuery query(this->db);
+            query.prepare("SELECT listePart FROM compte WHERE idcompte="+QString::fromStdString(std::to_string(id)));
+            query.exec();
+            if(query.next()){
+                qDebug() << "First select add";
+                QString stc = query.value(0).toString();
+                query.exec("SELECT idutil FROM utilisateur WHERE email='"+email+"'");
+                if(query.next()){
+                    qDebug() << "slect if add part" << query.value(0).toString();
+                    if(!stc.contains(query.value(0).toString())){
+                        stc.append(","+query.value(0).toString());
+                        if(query.exec("UPDATE compte SET listePart ='"+stc+"' WHERE idcompte="+QString::fromStdString(std::to_string(id)))){
+                            result = true;
+                            qDebug() << "util ajouté";
+                        }
+                    }
+                }
+            }
+        }
+        return result;
     }
 };
 #endif // GESTIONNAIREBDD_H
