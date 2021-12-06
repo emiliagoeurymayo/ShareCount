@@ -32,9 +32,9 @@ void Compte::afficher()
 }
 
 
-void Compte::setMotDePasse(std::string mdp)//MARIE LUC : Oublie pas les Compte::
+void Compte::setMotDePasse(std::string mdp)
 {
-    m_mdp=mdp;//MARIE LUC : C'est comme ça que l'on défini un setter
+    m_mdp=mdp;
 }
 
 std::string Compte::getMotDePasse()
