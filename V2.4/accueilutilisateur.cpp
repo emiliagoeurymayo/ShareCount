@@ -1,6 +1,18 @@
 #include "accueilutilisateur.h"
 #include "ui_accueilutilisateur.h"
 
+/** @brief Classe AccueilUtilisateur
+ **
+ ** classe de la fenetre AccueilUtilisateur
+ **
+ ** @version 2.4
+ **
+ ** @author Thibault Odor, Marie-Luc Moselle, Emilia Goeury-Mayo
+ **/
+
+///@brief Constructeur
+///
+///@param parent : fenetre parent de la fenetre AccueilUtilisateur
 AccueilUtilisateur::AccueilUtilisateur(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::AccueilUtilisateur)
@@ -9,15 +21,23 @@ AccueilUtilisateur::AccueilUtilisateur(QWidget *parent) :
 
 }
 
+///@brief Destructeur
 AccueilUtilisateur::~AccueilUtilisateur()
 {
     delete ui;
 }
 
+///@brief Permet de definir le modele dans AccueilUtilisateur
+///
+/// @param GestionnaireDialogue * g : Pointeur du modele
 void AccueilUtilisateur::attachGestionnaireDialogue(GestionnaireDialogue * g)
 {
     m_gestionnaireDialogue=*g;
 }
+
+///@brief Identifie l'utilisateur pour l'affichage graphique de AccueilUtilisateur
+///
+/// @param QMap contenant la liste des compte identifié
 void AccueilUtilisateur::identifierUtilisateur(QMap <QString, QString> q)
 {
     m_utilisateur=q;
@@ -46,6 +66,9 @@ void AccueilUtilisateur::identifierUtilisateur(QMap <QString, QString> q)
     }
 }
 
+///@brief Slot s'activant lorsque la liste de compte est cliqué
+///
+/// @param QModelIndex ????????
 void AccueilUtilisateur::on_listCompte_clicked(const QModelIndex &index){
     compteAff* c = new compteAff(this);
     QString stc = index.data(Qt::DisplayRole).toString();

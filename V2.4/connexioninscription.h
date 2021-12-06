@@ -11,19 +11,33 @@ namespace Ui {
 class ConnexionInscription;
 }
 
+/** @brief Classe ConnexionInscription utilisant ui.connexioninscription
+ **
+ ** Elle contient
+ ** @ref ConnexionInscription(QWidget *)
+ ** @ref virtual ~ConnexionInscription()
+ ** @ref void attachGestionnaireDialogue(GestionnaireDialogue *)
+ **
+ ** @version 2.4
+ **
+ ** @author Thibault Odor, Marie-Luc Moselle, Emilia Goeury-Mayo
+ **/
 class ConnexionInscription : public QDialog
 {
     Q_OBJECT
 
 public:
+    ///@brief Constructeur
     explicit ConnexionInscription(QWidget *parent = nullptr);
+    ///@brief Destructeur
     ~ConnexionInscription();
+    ///@brief Permet de definir le modele dans Inscription
     void attachGestionnaireDialogue(GestionnaireDialogue * g);
 
 private slots:
-
+    ///@brief Slot s'activant lorsque le bouton Connexion est cliqué
     void on_bouttonConnexion_clicked();
-
+    ///@brief Slot s'activant lorsque le bouton Inscription est cliqué
     void on_bouttonInscription_clicked();
 
 private:

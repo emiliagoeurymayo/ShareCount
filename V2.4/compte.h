@@ -9,7 +9,7 @@
  ** Elle contient
  **  @ref Compte(string, string)
  **
- ** @version 0.7
+ ** @version 2.4
  **
  ** @author Thibault Odor, Marie-Luc Moselle, Emilia Goeury-Mayo
  **/

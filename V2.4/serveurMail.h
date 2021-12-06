@@ -9,11 +9,12 @@
 /** @brief La classe ServeurMail permet l'envoi de mails
  **
  ** Elle contient
- **  @ref ServeurMail(string, string)
- **  @ref ajouterMail(string)
- **  @ref getStatusEmail(String)
+ **  @ref ServeurMail()
+ **  @ref void ajouterMail(string)
+ **  @ref bool getStatusEmail(String)
+ **  @ref bool is_valid(string)
  **
- ** @version 0.6
+ ** @version 2.4
  **
  ** @author Thibault Odor, Marie-Luc Moselle, Emilia Goeury-Mayo
  **/
@@ -24,10 +25,11 @@ public:
     ServeurMail();
     ///@brief Destructeur
     virtual ~ServeurMail();
-    ///@ Ajoute un mail à la liste des mails connus
+    ///@brief Ajoute un mail à la liste des mails connus
     void ajouterEmail(std::string email);
-    ///@ Recupère le status d'un email
+    ///@brief Recupère le status d'un email
     bool getStatusEmail(std::string email);
+    ///@brief Vérifie la validité de l'eamil
     bool is_valid(std::string email);
 
 private:

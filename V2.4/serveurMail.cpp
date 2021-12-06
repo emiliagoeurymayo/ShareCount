@@ -5,9 +5,9 @@
 
 /** @brief Classe Serveur mail
  **
- **Sert à repliquer un ServeurMail
+ **Sert à répliquer un ServeurMail
  **
- ** @version 0.6
+ ** @version 2.4
  **
  ** @author Thibault Odor, Marie-Luc Moselle, Emilia Goeury-Mayo
  **/
@@ -35,7 +35,7 @@ void ServeurMail::ajouterEmail(std::string email){
 
 ///@brief
 ///
-///@param string email : email à
+/// @param string email : email à
 bool ServeurMail::getStatusEmail(std::string email){
     std::list<std::string> :: iterator pos;
     pos = find(listeMailValide.begin() , listeMailValide.end() , email);
@@ -45,12 +45,22 @@ bool ServeurMail::getStatusEmail(std::string email){
             return false;
 }
 
-// Permet de vérifier si le charactère est une lettre ou pas
+///@brief Permet de vérifier si le charactère est une lettre ou pas
+///
+/// @param char c : charactere a vérifier
+/// @return true si le charactère est une lettre
 bool isChar(char c){return ((c >= 'a' && c <= 'z')|| (c >= 'A' && c <= 'Z'));}
-// Permet de vérifier si le charactère est un nombre ou pas
+
+///@brief Permet de vérifier si le charactère est un nombre ou pas
+///
+/// @param char c : charactere a vérifier
+/// @return true si le charactère est un nombre ou pas
 bool isDigit(const char c){return (c >= '0' && c <= '9');}
 
-// Permet de vérifier la validité du mail
+///@brief Permet de vérifier la validité du mail
+///
+/// @param string : email a analyser
+/// @return true si l'email est valide (commence par une lettre,possède un @ et un ., le point n'est pas le dernier charactère, l'eamil possède un domaine et l'@ se situe avant le point)
 bool ServeurMail::is_valid(std::string email)
 {
     //Premier charactère doit etre une lettre
