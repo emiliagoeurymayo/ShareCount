@@ -13,35 +13,37 @@ compteAff::~compteAff(){
 
 void compteAff::attachGestionnaireDialogue(GestionnaireDialogue *g, int id){
     m_gestionnaireDialogue=*g;
-    model = new QStringListModel(this);
-    this->idCompte = id;
-    QMap <QString, QString> map = m_gestionnaireDialogue.getParticipants(1, this->idCompte);
+    m_model = new QStringListModel(this);
+    this->m_idCompte = id;
+
+    QMap <QString, QString> map = m_gestionnaireDialogue.getParticipants(1, this->m_idCompte);
     QStringList stc;
 
-    for(const auto &e : map.toStdMap()){
-        //qDebug() << e.first << "," << e.second << '\n';
-        stc.append(e.first+" "+e.second);
-    }
+        for(const auto &e : map.toStdMap()){
+         //qDebug() << e.first << "," << e.second << '\n';
+               stc.append(e.first+" "+e.second);
+        }
 
-    model->setStringList(stc);
-    QString str = m_gestionnaireDialogue.getNomCompte(this->idCompte);
-    ui->liste->setModel(model);
+    m_model->setStringList(stc);
+    QString str = m_gestionnaireDialogue.getNomCompte(this->m_idCompte);
+    ui->liste->setModel(m_model);
     ui->nomCompte->setText(str);
 }
 
 void compteAff::on_addPart_clicked(){
-    QString text = QInputDialog::getText(0, "Input dialog",
+    QString email = QInputDialog::getText(this, "Input dialog",
                                             "Adresse Email du nouveau participant", QLineEdit::Normal);
 
-    qDebug() << m_gestionnaireDialogue.addPartCompt(text, this->idCompte);
-    QMap <QString, QString> map = m_gestionnaireDialogue.getParticipants(1,this->idCompte);
+    //m_model = new QStringListModel(this);
+    qDebug() <<"result addPartCompt" <<m_gestionnaireDialogue.addPartCompt(email, this->m_idCompte);
+    QMap <QString, QString> map = m_gestionnaireDialogue.getParticipants(1,this->m_idCompte);
     QStringList stc;
-
     for(const auto &e : map.toStdMap()){
-        qDebug() << e.first << "," << e.second << '\n';
+        //qDebug() << e.first << "," << e.second << '\n';
         stc.append(e.first+" "+e.second);
     }
-    model->setStringList(stc);
-    ui->liste->setModel(model);
+    m_model->setStringList(stc);
+    ui->liste->setModel(m_model);
+    this->show();
 }
 

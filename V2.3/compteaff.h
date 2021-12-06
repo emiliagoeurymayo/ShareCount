@@ -25,10 +25,10 @@ private slots:
 
 private:
     Ui::compteAff *ui;
-    QStringListModel *model;
-    QLabel *label;
+    QStringListModel *m_model;
+    QLabel *m_label;
     GestionnaireDialogue m_gestionnaireDialogue;
-    int idCompte;
+    int m_idCompte;
 };
 
 #endif // COMPTEAFF_H
