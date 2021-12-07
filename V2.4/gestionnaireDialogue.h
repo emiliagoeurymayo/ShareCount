@@ -48,11 +48,9 @@ public:
     QMap<QString,QString> getParticipants(int typeCompte, int idCompte);
     ///@brief Retourne le nom du compte identifier par l'id en paramètre
     QString getNomCompte(int id);
-<<<<<<< HEAD
+
     QString getNomCagnotte(int id);
-=======
     ///@brief Retourne la liste des comptes auquel l'utilisateur participe
->>>>>>> 8f3755b30a51be04e17ff35ad51f89981e004d80
     QMap<int, QString> getListeCompte();
     ///@brief Ajoute un participant à un compte partagé
     bool addPartCompt(QString text, int idCompte);
