@@ -10,6 +10,8 @@
 #include <QDebug>
 #include <QString>
 #include <QMap>
+#include <QOperatingSystemVersion>
+
 #include <stdio.h>
 #include <iostream>
 #include <string>
@@ -26,7 +28,20 @@ public:
     //creation db
     gestionnaireBDD(){
         this->db = QSqlDatabase::addDatabase("QSQLITE");
-        this->db.setDatabaseName("database.db");
+        QString sys = QOperatingSystemVersion::current().name();
+        QString stc = QDir::currentPath();
+
+        if(sys == "macOS" || sys=="Linux"){
+            QStringList list = stc.split("ShareCount");
+            stc = list[0];
+            stc.append("ShareCount/ressources/database.db");
+        }else if(sys =="Windows"){
+            QStringList list = stc.split("ShareCount");
+            stc = list[0];
+            stc.append("ShareCount\\ressources\\database.db");
+        }
+
+        this->db.setDatabaseName(stc);
         this->db.open();
         try{
             if(this->db.open()){
