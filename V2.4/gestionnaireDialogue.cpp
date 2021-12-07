@@ -77,8 +77,12 @@ void GestionnaireDialogue::envoiEmail(bool mailvalide){
 ///@brief Ajoute le compte à la base de donnée aprés la vérification
 void GestionnaireDialogue::verifValidationEmail(){
     if(m_serveurmail.getStatusEmail(m_email)){
-        m_sharecount.ajouterCompte(m_nom,m_prenom,m_email,m_mdp,m_pseudo);
-        m_gbdd.addUtil(m_prenom,m_nom,m_email,m_mdp,"ABC");
+        if(!m_gbdd.addUtil(m_prenom,m_nom,m_email,m_mdp,"ABC")){
+            qDebug() << "eMAil déja associe a un compte";
+        }
+        else{
+            m_sharecount.ajouterCompte(m_nom,m_prenom,m_email,m_mdp,m_pseudo);
+        }
     }
 }
 
