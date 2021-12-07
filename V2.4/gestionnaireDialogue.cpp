@@ -70,11 +70,19 @@ QMap<QString,QString> GestionnaireDialogue::getParticipants(int typeCompte, int 
 QString GestionnaireDialogue::getNomCompte(int id){
     return m_gbdd.getNomCompte(id);
 }
-
+QString GestionnaireDialogue::getNomCagnotte(int id){
+    return m_gbdd.getNomCagnotte(id);
+}
 QMap<int, QString> GestionnaireDialogue::getListeCompte(){
     return m_gbdd.getListeCompte(m_email);
 }
 
 bool GestionnaireDialogue::addPartCompt(QString text, int idCompte){
     return m_gbdd.addPartCompt(text,idCompte);
+
+}
+
+bool GestionnaireDialogue::addPartCagnotte(QString email, int idCagnotte){
+    return m_gbdd.addPartCagnotte(email, idCagnotte);
+
 }

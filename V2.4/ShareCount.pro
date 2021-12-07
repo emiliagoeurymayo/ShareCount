@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += \
     cagnotte.cpp \
     accueilutilisateur.cpp \
+    cagnotteaff.cpp \
     compte.cpp \
     comptePartage.cpp \
     compteaff.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
 
 HEADERS += \
     cagnotte.h \
+    cagnotteaff.h \
     compte.h \
     comptePartage.h \
     compteaff.h \
@@ -37,6 +39,7 @@ HEADERS += \
     gestionnaireBDD.h
 
 FORMS += \
+    cagnotteAff.ui \
     compteAff.ui \
     connexion.ui \
     connexioninscription.ui \

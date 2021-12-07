@@ -26,7 +26,7 @@ public:
     //creation db
     gestionnaireBDD(){
         this->db = QSqlDatabase::addDatabase("QSQLITE");
-        this->db.setDatabaseName("a.db");
+        this->db.setDatabaseName("/Users/emiliagoeury/Desktop/Univ/L3_V2/cpoa/ShareCount/V2.4/database.db");
         this->db.open();
         try{
             if(this->db.open()){
@@ -50,26 +50,26 @@ public:
 
     void createDB(){
         if(this->db.open()){
-            QSqlQuery query(this->db);
-            if(!query.exec("create table if not exists utilisateur(idutil int primary key, prenom varchar(20),nom varchar(20),email varchar(50), mdp varchar(20), payement varchar(19))")){
+            QSqlQuery queryUtil(this->db);
+            if(!queryUtil.exec("create table if not exists utilisateur(idutil int primary key, prenom varchar(20),nom varchar(20),email varchar(50), mdp varchar(20), payement varchar(19))")){
                qDebug() << "utilisateur";
-               qDebug() << query.lastError();
+               qDebug() << queryUtil.lastError();
             }
-            QSqlQuery query1(this->db);
-            if(!query1.exec("create table if not exists compte(idcompte int primary key, nom varchar(30), listePart varchar(30))")){
+            QSqlQuery queryCompte(this->db);
+            if(!queryCompte.exec("create table if not exists compte(idcompte int primary key, nom varchar(30), listePart varchar(30))")){
                 qDebug() << "compte";
-                qDebug() << query1.lastError();
+                qDebug() << queryCompte.lastError();
             }
 
-            QSqlQuery query2(this->db);
-            if(!query2.exec("create table if not exists dettes (idcompte int primary key, util1 int, util2 int, dette int)")){
+            QSqlQuery queryDettes(this->db);
+            if(!queryDettes.exec("create table if not exists dettes (idcompte int primary key, util1 int, util2 int, dette int)")){
                 qDebug() << "dette";
-                qDebug() << query2.lastError();
+                qDebug() << queryDettes.lastError();
             }
-            QSqlQuery query3(this->db);
-            if(!query3.exec("create table if not exists cagnotte (idcagnotte int primary key, idRespo int, montantDispo int ,nom varchar(30), listePart varchar(30))")){
+            QSqlQuery queryCagnotte(this->db);
+            if(!queryCagnotte.exec("create table if not exists cagnotte (idcagnotte int primary key, idRespo int, montantDispo int ,nom varchar(30), listePart varchar(30))")){
                 qDebug() << "cagnotte";
-                qDebug() << query3.lastError();
+                qDebug() << queryCagnotte.lastError();
             }
 
             QSqlQuery queryHistorique(this->db);
@@ -77,36 +77,39 @@ public:
                 qDebug() << "Historique";
                 qDebug() << queryHistorique.lastError();
             }
-            QSqlQuery query4(this->db);
-            query4.exec("select max(idutil) from utilisateur");
-            if(query4.next()){
-                this->nbUtil = query4.value(0).toInt();
+            QSqlQuery queryIdUtil(this->db);
+            queryIdUtil.exec("select max(idutil) from utilisateur");
+            if(queryIdUtil.next()){
+                this->nbUtil = queryIdUtil.value(0).toInt();
                 //qDebug() << "max idutil" << query4.value(0).toInt();
             }
 
-            QSqlQuery query5(this->db);
-            query5.exec("select max(idcompte) from compte");
-            if(query5.next()){
-                this->nbCompte = query5.value(0).toInt();
+            QSqlQuery queryIdCompte(this->db);
+            queryIdCompte.exec("select max(idcompte) from compte");
+            if(queryIdCompte.next()){
+                this->nbCompte = queryIdCompte.value(0).toInt();
                 //qDebug() << "max idcompte" << query5.value(0).toInt();
             }
 
-            QSqlQuery query7(this->db);
-            query7.exec("select max(idcagnotte) from cagnotte");
-            if(query7.next()){
-                this->nbCagnotte = query7.value(0).toInt();
+            QSqlQuery queryIdCagnotte(this->db);
+            queryIdCagnotte.exec("select max(idcagnotte) from cagnotte");
+            if(queryIdCagnotte.next()){
+                this->nbCagnotte = queryIdCagnotte.value(0).toInt();
                 //qDebug() << "maxidcagnotte" << query7.value(0).toInt();
             }
 
             if(this->nbUtil == 0){
-                addUtil("pre","nomnom","prenom.nom@test.fr","mdp", "12");
-                addUtil("admin","admin","admin@test.fr","mdp1","25");
-                addUtil("test","test","test@test.fr","mdp2","46");
+                addUtil("Thibault","Odor","to@test.fr","mdp", "1234567891234567891");
+                addUtil("Marie-Luc","Moselle","mlm@test.fr","mdp1","1234567891234567891");
+                addUtil("Emilia","Goeury","egm@test.fr","mdp2","1234567891234567891");
+                addUtil("Max", "Illoul", "mi@test.fr", "mdp3","1234567891234567891" );
             }
 
             if(this->nbCompte == 0){
-                addComptePartage("Vacances", "1,2,3");
+                addComptePartage("Vacances", "1,2,4");
                 addComptePartage("Soiree 29/11", "1,2,3");
+                addComptePartage("Noel", "2,3,4");
+                addComptePartage("Restaurant 12/06","3,4");
                 addDettes(1, 1, 2, 30);
                 addDettes(2, 3, 2, 1);
                 addDettes(3, 1, 3, 80);
@@ -289,6 +292,15 @@ public:
             }
            return result;
         }
+    QString getNomCagnotte(int id){
+        QString result;
+        QSqlQuery query(this->db);
+        query.exec("SELECT nom FROM cagnotte WHERE idcagnotte="+QString::fromStdString(std::to_string(id)));
+        if(query.next()){
+            result = query.value(0).toString();
+        }
+       return result;
+    }
 
         bool addPartCompt(QString email, int id){
             bool result = false;
@@ -313,6 +325,21 @@ public:
                             }
                         }
                     }
+                }
+            }
+            return result;
+        }
+
+        bool addPartCagnotte(QString email, int idCagnotte){
+            bool result = false;
+            std::string stc = email.toStdString();
+            if(utilExist(stc)){
+                qDebug() << "util exist";
+                QSqlQuery query(this->db);
+                query.prepare("SELECT listePart FROM cagnotte WHERE idcagnotte="+QString::fromStdString(std::to_string(idCagnotte)));
+                query.exec();
+                if(query.next()){
+
                 }
             }
             return result;

@@ -34,7 +34,6 @@ void compteAff::on_addPart_clicked(){
     QString email = QInputDialog::getText(this, "Input dialog",
                                             "Adresse Email du nouveau participant", QLineEdit::Normal);
 
-    //m_model = new QStringListModel(this);
     qDebug() <<"result addPartCompt" <<m_gestionnaireDialogue.addPartCompt(email, this->m_idCompte);
     QMap <QString, QString> map = m_gestionnaireDialogue.getParticipants(1,this->m_idCompte);
     QStringList stc;

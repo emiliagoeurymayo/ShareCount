@@ -19,8 +19,11 @@ public:
     QMap<QString,QString> identifierUtilisateur(int id);
     QMap<QString,QString> getParticipants(int typeCompte, int idCompte);
     QString getNomCompte(int id);
+    QString getNomCagnotte(int id);
     QMap<int, QString> getListeCompte();
     bool addPartCompt(QString text, int idCompte);
+    bool addPartCagnotte(QString email, int idCagnotte);
+
 private:
 
     ShareCount m_sharecount;
