@@ -2,6 +2,7 @@
 #define CONNEXIONINSCRIPTION_H
 
 #include <QDialog>
+#include <QCloseEvent>
 #pragma once    //A VOIR SI ON GARDE
 #include "inscription.h"
 #include "connexion.h"

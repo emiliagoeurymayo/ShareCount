@@ -22,25 +22,26 @@ private:
     int nbCompte;
     int nbCagnotte;
     int nbUtil;
+    QString path;
 
 public:
     //creation db
     gestionnaireBDD(){
         this->db = QSqlDatabase::addDatabase("QSQLITE");
         QString sys = QOperatingSystemVersion::current().name();
-        QString stc = QDir::currentPath();
+        this->path = QDir::currentPath();
 
-        if(sys == "macOS" || sys=="Linux"){
-            QStringList list = stc.split("ShareCount");
-            stc = list[0];
-            stc.append("ShareCount/ressources/database.db");
+        if(sys == "macOS" || sys=="Linux" || sys==""){
+            QStringList list = this->path.split("ShareCount");
+            this->path = list[0];
+            this->path.append("ShareCount/ressources/database.db");
         }else if(sys =="Windows"){
-            QStringList list = stc.split("ShareCount");
-            stc = list[0];
-            stc.append("ShareCount\\ressources\\database.db");
+            QStringList list = this->path.split("ShareCount");
+            this->path = list[0];
+            this->path.append("ShareCount\\ressources\\database.db");
         }
 
-        this->db.setDatabaseName(stc);
+        this->db.setDatabaseName(this->path);
         this->db.open();
         try{
             if(this->db.open()){
@@ -141,7 +142,6 @@ public:
         if(query.next()){
             result = true;
         }
-        //qDebug() << "utilExist =" << result;
         return result;
     }
 
@@ -152,7 +152,6 @@ public:
             if(query.next()){
                 result = query.value(0).toInt();
             }
-            qDebug() << "informations de connexions correct =" << result;
             return result;
         }
 
@@ -234,7 +233,6 @@ public:
         query.exec();
         while(query.next()){
             result.insert(query.value(0).toString(), query.value(1).toString());
-            //qDebug() << query.value(0).toString() << query.value(1).toString();
         }
         return result;
     }
@@ -267,7 +265,6 @@ public:
             query.exec("SELECT prenom,nom FROM utilisateur WHERE idutil ="+i);
             if(query.next()){
                 map.insert(query.value(0).toString(), query.value(1).toString());
-                //qDebug() << query.value(0).toString() << query.value(1).toString();
             }
         }
 
@@ -318,22 +315,17 @@ public:
             bool result = false;
             std::string stc = email.toStdString();
             if(utilExist(stc)){
-                qDebug() << "util exist";
                 QSqlQuery query(this->db);
                 query.prepare("SELECT listePart FROM compte WHERE idcompte="+QString::fromStdString(std::to_string(id)));
                 query.exec();
                 if(query.next()){
-                    qDebug() << "select listPart";
                     QString stc = query.value(0).toString();
                     query.exec("SELECT idutil FROM utilisateur WHERE email='"+email+"'");
                     if(query.next()){
-                        qDebug() << "select idutil";
                         if(!stc.contains(query.value(0).toString())){
-                            qDebug() <<"not contains";
                             stc.append(","+query.value(0).toString());
                             if(query.exec("UPDATE compte SET listePart ='"+stc+"' WHERE idcompte="+QString::fromStdString(std::to_string(id)))){
                                 result = true;
-                                qDebug() << "util ajouté Compte";
                             }
                         }
                     }
@@ -346,7 +338,6 @@ public:
             bool result = false;
             std::string stc = email.toStdString();
             if(utilExist(stc)){
-                qDebug() << "util exist";
                 QSqlQuery query(this->db);
                 query.prepare("SELECT listePart FROM cagnotte WHERE idcagnotte="+QString::fromStdString(std::to_string(idCagnotte)));
                 query.exec();
@@ -360,7 +351,6 @@ public:
                             stc.append(","+query.value(0).toString());
                             if(query.exec("UPDATE cagnotte SET listePart ='"+stc+"' WHERE idcagnotte="+QString::fromStdString(std::to_string(idCagnotte)))){
                                 result = true;
-                                qDebug() << "util ajouté Cagnotte";
                             }
                         }
                     }
@@ -370,26 +360,21 @@ public:
         }
 
         QMap<int, QString> getListeCompte(std::string email){
-            qDebug() << "getListCompte";
             QString mail = QString::fromStdString(email);
             QString list;
             QMap<int, QString> map;
             QSqlQuery query(this->db);
-            qDebug() << "SELECT idutil FROM utilisateur WHERE email='"+mail+"'";
             query.prepare("SELECT idutil FROM utilisateur WHERE email='"+mail+"'");
             query.exec();
             if(query.next()){
-                qDebug() << "gestListCompte prem reque";
                 QString id = query.value(0).toString();
                 query.prepare("SELECT listePart,nom,idcompte FROM compte");
                 query.exec();
                 while(query.next()){
-                    qDebug() << "2 reuqte listCompte";
                     QString stc = query.value(0).toString();
                     if(stc.contains(id)){
                         list = query.value(1).toString();
                         map.insert(query.value(2).toInt(), list);
-                        qDebug() << "Ajoute" << query.value(2).toString() <<query.value(1).toString() << query.value(0).toString();
                     }
                 }
             }
@@ -404,15 +389,12 @@ public:
             query.prepare("SELECT idutil FROM utilisateur WHERE email='"+mail+"'");
             query.exec();
             if(query.next()){
-                qDebug() << "gestListCompte prem reque";
                 QString id = query.value(0).toString();
                 query.prepare("SELECT listePart,nom,idcagnotte FROM cagnotte");
                 query.exec();
                 while(query.next()){
                     list=query.value(1).toString();
                     map.insert(query.value(2).toInt(), list);
-                    qDebug() << "Ajoute" << query.value(2).toString() <<query.value(1).toString() << query.value(0).toString();
-
                 }
             }
             return map;
@@ -420,6 +402,7 @@ public:
 
         ~gestionnaireBDD(){
             this->db.close();
+            QSqlDatabase::removeDatabase(this->path);
         }
 
 };

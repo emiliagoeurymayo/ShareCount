@@ -48,4 +48,3 @@ void ConnexionInscription::on_bouttonInscription_clicked()
     m->show();
     this->hide();
 }
-
