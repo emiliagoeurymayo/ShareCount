@@ -26,7 +26,7 @@ public:
     //creation db
     gestionnaireBDD(){
         this->db = QSqlDatabase::addDatabase("QSQLITE");
-        this->db.setDatabaseName("/Users/emiliagoeury/Desktop/Univ/L3_V2/cpoa/ShareCount/V2.4/database.db");
+        this->db.setDatabaseName("database.db");
         this->db.open();
         try{
             if(this->db.open()){
