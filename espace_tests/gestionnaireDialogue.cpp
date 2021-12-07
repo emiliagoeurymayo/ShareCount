@@ -117,16 +117,10 @@ QMap<QString,QString> GestionnaireDialogue::getParticipants(int typeCompte, int 
 QString GestionnaireDialogue::getNomCompte(int id){
     return m_gbdd.getNomCompte(id);
 }
-<<<<<<< HEAD
-QString GestionnaireDialogue::getNomCagnotte(int id){
-    return m_gbdd.getNomCagnotte(id);
-}
-=======
 
 ///@brief Retourne la liste des comptes auquel l'utilisateur participe
 ///
 /// @return retourne une liste contenant les comptes auquel l'utilisateur participe
->>>>>>> 8f3755b30a51be04e17ff35ad51f89981e004d80
 QMap<int, QString> GestionnaireDialogue::getListeCompte(){
     return m_gbdd.getListeCompte(m_email);
 }
@@ -138,10 +132,4 @@ QMap<int, QString> GestionnaireDialogue::getListeCompte(){
 /// @return retourne True si l'operation c'est bien effectuée
 bool GestionnaireDialogue::addPartCompt(QString text, int idCompte){
     return m_gbdd.addPartCompt(text,idCompte);
-
-}
-
-bool GestionnaireDialogue::addPartCagnotte(QString email, int idCagnotte){
-    return m_gbdd.addPartCagnotte(email, idCagnotte);
-
 }
