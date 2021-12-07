@@ -53,3 +53,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 TEMPLATE = app
 CONFIG += console
+QMAKE_CXXFLAGS += -Wall -Wextra
