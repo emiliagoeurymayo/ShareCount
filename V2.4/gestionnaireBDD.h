@@ -22,7 +22,6 @@ private:
     int nbCompte;
     int nbCagnotte;
     int nbUtil;
-    bool etatDB;
 
 public:
     //creation db
@@ -50,8 +49,6 @@ public:
                 nbCagnotte = 0;
                 nbUtil = 0;
                 createDB();
-                this->etatDB = true;
-
             }else{
                 qDebug() << "Error: connection with database failed";
                 qDebug() << this->db.lastError();
