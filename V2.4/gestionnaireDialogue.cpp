@@ -110,14 +110,18 @@ QMap<QString,QString> GestionnaireDialogue::getParticipants(int typeCompte, int 
     return m_gbdd.getParticipants(typeCompte, idCompte);
 }
 
-///@brief Retourne le nom du compte identifier par l'id en paramètre
+///@brief Retourne le nom du compte identifié par l'id en paramètre
 ///
-/// @param int id : id de l'utilisateur à identifier
+/// @param int id : id du compte à identifier
 /// @return retourne le nom du compte identifier par l'id en paramètre
 QString GestionnaireDialogue::getNomCompte(int id){
     return m_gbdd.getNomCompte(id);
 }
 
+///@brief Retourne le nom de la cagnotte identifiée par l'id en paramètre
+///
+/// @param int id : id de la cagnotte à identifier
+/// @return retourne le nom du compte identifier par l'id en paramètre
 QString GestionnaireDialogue::getNomCagnotte(int id){
     return m_gbdd.getNomCagnotte(id);
 }
@@ -130,16 +134,28 @@ QMap<int, QString> GestionnaireDialogue::getListeCompte(){
     return m_gbdd.getListeCompte(m_email);
 }
 
+///@brief Retourne la liste des comptes auquel l'utilisateur participe
+///
+/// @return retourne une liste contenant les comptes auquel l'utilisateur participe
+QMap<int, QString> GestionnaireDialogue::getListeCagnotte(){
+    return m_gbdd.getListeCagnotte(m_email);
+}
+
 ///@brief Ajoute un participant à un compte partagé
 ///
-/// @param QString text : participant à ajouter
+/// @param QString email : participant à ajouter
 /// @param int idCompte : id du compte à vérifier
 /// @return retourne True si l'operation c'est bien effectuée
-bool GestionnaireDialogue::addPartCompt(QString text, int idCompte){
-    return m_gbdd.addPartCompt(text,idCompte);
+bool GestionnaireDialogue::addPartCompt(QString email, int idCompte){
+    return m_gbdd.addPartCompt(email,idCompte);
 
 }
 
+///@brief Ajoute un participant à une cagnotte
+///
+/// @param QString email : participant à ajouter
+/// @param int idCagnotte : id du compte à vérifier
+/// @return retourne True si l'operation c'est bien effectuée
 bool GestionnaireDialogue::addPartCagnotte(QString email, int idCagnotte){
     return m_gbdd.addPartCagnotte(email, idCagnotte);
 

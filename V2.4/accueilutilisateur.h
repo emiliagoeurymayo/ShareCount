@@ -5,6 +5,7 @@
 #include "gestionnaireDialogue.h"
 #include <QStringListModel>
 #include "compteaff.h"
+#include "cagnotteaff.h"
 
 namespace Ui {
 class AccueilUtilisateur;
@@ -40,11 +41,15 @@ private slots:
     ///@brief Slot s'activant lorsque la liste de compte est cliqué
     void on_listCompte_clicked(const QModelIndex &index);
 
+    void on_listCagnotte_clicked(const QModelIndex &index);
+
 private:
     Ui::AccueilUtilisateur *ui;
     GestionnaireDialogue m_gestionnaireDialogue;
     QMap <QString, QString> m_utilisateur;
-    QStringListModel *model;
+    QStringListModel *m_modelCompte;
+    QStringListModel *m_modelCagnotte;
+
 };
 
 #endif // ACCUEILUTILISATEUR_H

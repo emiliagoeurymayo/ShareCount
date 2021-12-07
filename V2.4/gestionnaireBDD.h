@@ -321,7 +321,7 @@ public:
                             stc.append(","+query.value(0).toString());
                             if(query.exec("UPDATE compte SET listePart ='"+stc+"' WHERE idcompte="+QString::fromStdString(std::to_string(id)))){
                                 result = true;
-                                qDebug() << "util ajouté";
+                                qDebug() << "util ajouté Compte";
                             }
                         }
                     }
@@ -339,7 +339,19 @@ public:
                 query.prepare("SELECT listePart FROM cagnotte WHERE idcagnotte="+QString::fromStdString(std::to_string(idCagnotte)));
                 query.exec();
                 if(query.next()){
-
+                    QString stc = query.value(0).toString();
+                    query.exec("SELECT idutil,payement FROM utilisateur WHERE email='"+email+"'");
+                    if(query.next()){
+                        QString id = query.value(0).toString();
+                        QString payement = query.value(1).toString();
+                        if(!payement.isEmpty() && !stc.contains(query.value(0).toString())){
+                            stc.append(","+query.value(0).toString());
+                            if(query.exec("UPDATE cagnotte SET listePart ='"+stc+"' WHERE idcagnotte="+QString::fromStdString(std::to_string(idCagnotte)))){
+                                result = true;
+                                qDebug() << "util ajouté Cagnotte";
+                            }
+                        }
+                    }
                 }
             }
             return result;
@@ -370,6 +382,32 @@ public:
                 }
             }
             return map;
+        }
+
+        QMap <int,QString> getListeCagnotte(std::string email){
+            QString mail = QString::fromStdString(email);
+            QString list;
+            QMap<int, QString> map;
+            QSqlQuery query(this->db);
+            query.prepare("SELECT idutil FROM utilisateur WHERE email='"+mail+"'");
+            query.exec();
+            if(query.next()){
+                qDebug() << "gestListCompte prem reque";
+                QString id = query.value(0).toString();
+                query.prepare("SELECT listePart,nom,idcagnotte FROM cagnotte");
+                query.exec();
+                while(query.next()){
+                    list=query.value(1).toString();
+                    map.insert(query.value(2).toInt(), list);
+                    qDebug() << "Ajoute" << query.value(2).toString() <<query.value(1).toString() << query.value(0).toString();
+
+                }
+            }
+            return map;
+        }
+
+        ~gestionnaireBDD(){
+            this->db.close();
         }
 
 };

@@ -46,4 +46,3 @@ void cagnotteAff::on_addPart_clicked(){
     ui->liste->setModel(m_model);
     this->show();
 }
-
