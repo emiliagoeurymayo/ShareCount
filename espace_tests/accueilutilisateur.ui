@@ -19,8 +19,8 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>471</width>
-      <height>81</height>
+      <width>621</width>
+      <height>161</height>
      </rect>
     </property>
     <property name="font">
@@ -38,11 +38,47 @@
    <widget class="QListView" name="listCompte">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>150</y>
-      <width>256</width>
-      <height>192</height>
+      <x>30</x>
+      <y>230</y>
+      <width>171</width>
+      <height>221</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="cmp">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>210</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Comptes Partagés</string>
+    </property>
+   </widget>
+   <widget class="QListView" name="listCagnotte">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>230</y>
+      <width>171</width>
+      <height>221</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="cag">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>210</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Cagnottes</string>
     </property>
    </widget>
   </widget>

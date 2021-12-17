@@ -40,7 +40,7 @@ public:
             this->path = list[0];
             this->path.append("ShareCount\\ressources\\database.db");
         }
-
+        qDebug() << this->path;
         this->db.setDatabaseName(this->path);
         this->db.open();
         try{

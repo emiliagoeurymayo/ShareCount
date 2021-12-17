@@ -77,8 +77,12 @@ void GestionnaireDialogue::envoiEmail(bool mailvalide){
 ///@brief Ajoute le compte à la base de donnée aprés la vérification
 void GestionnaireDialogue::verifValidationEmail(){
     if(m_serveurmail.getStatusEmail(m_email)){
-        m_sharecount.ajouterCompte(m_nom,m_prenom,m_email,m_mdp,m_pseudo);
-        m_gbdd.addUtil(m_prenom,m_nom,m_email,m_mdp,"ABC");
+        if(!m_gbdd.addUtil(m_prenom,m_nom,m_email,m_mdp,"ABC")){
+            qDebug() << "eMAil déja associe a un compte";
+        }
+        else{
+            m_sharecount.ajouterCompte(m_nom,m_prenom,m_email,m_mdp,m_pseudo);
+        }
     }
 }
 
@@ -110,13 +114,31 @@ QMap<QString,QString> GestionnaireDialogue::getParticipants(int typeCompte, int 
     return m_gbdd.getParticipants(typeCompte, idCompte);
 }
 
-///@brief Retourne le nom du compte identifier par l'id en paramètre
+///@brief Getter des dépenses d'un compte partagé
 ///
-/// @param int id : id de l'utilisateur à identifier
+/// @param int typeCompte : id du type de compte à vérifier
+/// @param int idCompte : id du compte à vérifier
+/// @return retourne une liste contenant les dépenses d'un compte partagé
+QMap<QString,QString> GestionnaireDialogue::getDepenses(int typeCompte, int idCompte){
+    return m_gbdd.getDepenses(typeCompte, idCompte);
+}
+
+///@brief Retourne le nom du compte identifié par l'id en paramètre
+///
+/// @param int id : id du compte à identifier
 /// @return retourne le nom du compte identifier par l'id en paramètre
 QString GestionnaireDialogue::getNomCompte(int id){
     return m_gbdd.getNomCompte(id);
 }
+
+///@brief Retourne le nom de la cagnotte identifiée par l'id en paramètre
+///
+/// @param int id : id de la cagnotte à identifier
+/// @return retourne le nom du compte identifier par l'id en paramètre
+QString GestionnaireDialogue::getNomCagnotte(int id){
+    return m_gbdd.getNomCagnotte(id);
+}
+
 
 ///@brief Retourne la liste des comptes auquel l'utilisateur participe
 ///
@@ -125,11 +147,39 @@ QMap<int, QString> GestionnaireDialogue::getListeCompte(){
     return m_gbdd.getListeCompte(m_email);
 }
 
+///@brief Retourne la liste des comptes auquel l'utilisateur participe
+///
+/// @return retourne une liste contenant les comptes auquel l'utilisateur participe
+QMap<int, QString> GestionnaireDialogue::getListeCagnotte(){
+    return m_gbdd.getListeCagnotte(m_email);
+}
+
 ///@brief Ajoute un participant à un compte partagé
 ///
-/// @param QString text : participant à ajouter
+/// @param QString email : participant à ajouter
 /// @param int idCompte : id du compte à vérifier
 /// @return retourne True si l'operation c'est bien effectuée
-bool GestionnaireDialogue::addPartCompt(QString text, int idCompte){
-    return m_gbdd.addPartCompt(text,idCompte);
+bool GestionnaireDialogue::addPartCompt(QString email, int idCompte){
+    return m_gbdd.addPartCompt(email,idCompte);
+
+}
+
+///@brief Ajoute une dépense à un compte partagé
+///
+/// @param QString email : participant à ajouter
+/// @param int idCompte : id du compte à vérifier
+/// @return retourne True si l'operation c'est bien effectuée
+bool GestionnaireDialogue::addDepCompt(QString depense, int idCompte){
+    return m_gbdd.addDepCompt(depense, idCompte);
+
+}
+
+///@brief Ajoute un participant à une cagnotte
+///
+/// @param QString email : participant à ajouter
+/// @param int idCagnotte : id du compte à vérifier
+/// @return retourne True si l'operation c'est bien effectuée
+bool GestionnaireDialogue::addPartCagnotte(QString email, int idCagnotte){
+    return m_gbdd.addPartCagnotte(email, idCagnotte);
+
 }

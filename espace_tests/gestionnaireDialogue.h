@@ -46,12 +46,23 @@ public:
     QMap<QString,QString> identifierUtilisateur(int id);
     ///@brief Getter des participants d'un compte partagé
     QMap<QString,QString> getParticipants(int typeCompte, int idCompte);
+    ///@brief Getter des dépenses d'un compte partagé
+    QMap<QString,QString> getDepenses(int typeCompte, int idCompte);
     ///@brief Retourne le nom du compte identifier par l'id en paramètre
     QString getNomCompte(int id);
+    ///@brief Retourne le nom de la cagnotte identifiée par l'id en paramètre
+    QString getNomCagnotte(int id);
     ///@brief Retourne la liste des comptes auquel l'utilisateur participe
     QMap<int, QString> getListeCompte();
+    ///@brief Retourne la liste des cagnottes auquelles l'utilisateur participe
+    QMap<int, QString> getListeCagnotte();
     ///@brief Ajoute un participant à un compte partagé
     bool addPartCompt(QString text, int idCompte);
+    ///@brief Ajoute un participant à une cagnotte partagé
+    bool addPartCagnotte(QString email, int idCagnotte);
+    ///@brief Ajoute une dépense à un compte partagé
+    bool addDepCompt(QString depense, int idCompte);
+
 private:
 
     ShareCount m_sharecount;

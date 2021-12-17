@@ -34,7 +34,6 @@ void compteAff::on_addPart_clicked(){
     QString email = QInputDialog::getText(this, "Input dialog",
                                             "Adresse Email du nouveau participant", QLineEdit::Normal);
 
-    //m_model = new QStringListModel(this);
     qDebug() <<"result addPartCompt" <<m_gestionnaireDialogue.addPartCompt(email, this->m_idCompte);
     QMap <QString, QString> map = m_gestionnaireDialogue.getParticipants(1,this->m_idCompte);
     QStringList stc;
@@ -47,3 +46,17 @@ void compteAff::on_addPart_clicked(){
     this->show();
 }
 
+void compteAff::on_addDep_clicked(){
+    QString depense = QInputDialog::getText(this, "Input dialog",
+                                            "Nouvelle dépense", QLineEdit::Normal);
+    qDebug() <<"result addDepenseCompt" <<m_gestionnaireDialogue.addDepCompt(depense, this->m_idCompte);
+    QMap <QString, QString> map = m_gestionnaireDialogue.getDepenses(1,this->m_idCompte);
+    QStringList stc;
+    for(const auto &e : map.toStdMap()){
+        //qDebug() << e.first << "," << e.second << '\n';
+        stc.append(e.first+" "+e.second);
+    }
+    m_model->setStringList(stc);
+    ui->liste->setModel(m_model);
+    this->show();
+}

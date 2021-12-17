@@ -29,9 +29,16 @@ class ComptePartage
         /// @brief Retire un participant de la liste
         void retirerParticipant(int index);
 
+        /// @brief Ajoute une dépense à la liste
+        void ajouterDepense(std::string depense);
+
+        /// @brief Retire une dépense de la liste
+        void retirerDepense(int index);
+
     private:
         std::string m_nom;
         QList<std::string> m_participants;
+        QList<std::string> m_depenses;
 
 };
 

@@ -7,6 +7,7 @@ ComptePartage::ComptePartage(std::string nom, QList<std::string> list)
 {
     m_nom = nom;
     m_participants = list;
+    m_depenses = list;
 }
 
 ComptePartage::~ComptePartage()
@@ -48,5 +49,17 @@ void ComptePartage::ajouterParticipant(std::string participant)
 void ComptePartage::retirerParticipant(int index)
 {
     m_participants.removeAt(index);
+}
+
+/// @brief Ajoute une dépense
+void ComptePartage::ajouterDepense(std::string depense)
+{
+    m_depenses.append(depense);
+}
+
+/// @brief Retire une dépense de la liste
+void ComptePartage::retirerDepense(int index)
+{
+    m_depenses.removeAt(index);
 }
 

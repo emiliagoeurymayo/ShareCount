@@ -42,6 +42,7 @@ void AccueilUtilisateur::identifierUtilisateur(QMap <QString, QString> q)
 {
     m_utilisateur=q;
 
+    //prenom nom utilisateur
     QString nomprenom;
 
     for(const auto &e : m_utilisateur.toStdMap()){
@@ -51,26 +52,55 @@ void AccueilUtilisateur::identifierUtilisateur(QMap <QString, QString> q)
     ui->NomPrenom->setText("Bonjour, "+nomprenom);
     //ui->Nom->setText(nomprenom.takeAt(0));
 
-    model = new QStringListModel(this);
-    QMap<int, QString> map = m_gestionnaireDialogue.getListeCompte();
-    QStringList stc;
+    //liste compte
+    m_modelCompte = new QStringListModel(this);
+    QMap<int, QString> compte = m_gestionnaireDialogue.getListeCompte();
+    QStringList cmp;
 
-    for(const auto &e : map.toStdMap()){
+    for(const auto &e : compte.toStdMap()){
         //qDebug() << e.first << "," << e.second << '\n';
-        stc.append(QString::fromStdString(std::to_string(e.first))+"."+e.second);
+        cmp.append(QString::fromStdString(std::to_string(e.first))+"."+e.second);
     }
 
-    if(!stc.isEmpty()){
-        model->setStringList(stc);
-        ui->listCompte->setModel(model);
+    //liste cagnotte
+    m_modelCagnotte = new QStringListModel(this);
+
+    QMap<int, QString> cagnotte = m_gestionnaireDialogue.getListeCagnotte();
+    QStringList cag;
+
+    for(const auto &e : cagnotte.toStdMap()){
+        //qDebug() << e.first << "," << e.second << '\n';
+        cag.append(QString::fromStdString(std::to_string(e.first))+"."+e.second);
+    }
+
+    //ajout liste compte//cagnotte
+    if(!cmp.isEmpty()){
+        m_modelCompte->setStringList(cmp);
+        ui->listCompte->setModel(m_modelCompte);
+    }
+    if(!cag.isEmpty()){
+        m_modelCagnotte->setStringList(cag);
+        ui->listCagnotte->setModel(m_modelCagnotte);
     }
 }
 
-///@brief Slot s'activant lorsque la liste de compte est cliqué
+///@brief Slot s'activant lorsque la liste de compte est cliquée
 ///
-/// @param QModelIndex ????????
+/// @param QModelIndex index de l'element cliqué
 void AccueilUtilisateur::on_listCompte_clicked(const QModelIndex &index){
     compteAff* c = new compteAff(this);
+    QString stc = index.data(Qt::DisplayRole).toString();
+    int result = stc.split(".")[0].toInt();
+    c->attachGestionnaireDialogue(&m_gestionnaireDialogue,result);
+    c->show();
+    this->hide();
+}
+
+///@brief Slot s'activant lorsque la liste de cagnotte est cliquée
+///
+/// @param QModelIndex index de l'element cliqué
+void AccueilUtilisateur::on_listCagnotte_clicked(const QModelIndex &index){
+    cagnotteAff* c = new cagnotteAff(this);
     QString stc = index.data(Qt::DisplayRole).toString();
     int result = stc.split(".")[0].toInt();
     c->attachGestionnaireDialogue(&m_gestionnaireDialogue,result);

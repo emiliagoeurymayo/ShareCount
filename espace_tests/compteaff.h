@@ -23,6 +23,8 @@ public:
 private slots:
     void on_addPart_clicked();
 
+    void on_addDep_clicked();
+
 private:
     Ui::compteAff *ui;
     QStringListModel *m_model;
