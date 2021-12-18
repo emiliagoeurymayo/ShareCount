@@ -18,17 +18,55 @@
 
 #include "simplecrypt.h"
 
+/** @brief Classe qui assure la connection et les opérations sur la base de données
+ **
+ ** Elle contient
+ ** @ref gestionnaireBDD()
+ ** @ref void createDB()
+ ** @ref bool utilExist(std::string email)
+ ** @ref int informationConnexionValide(std::string email,std::string mdp)
+ ** @ref bool addUtil(std::string prenom, std::string nom, std::string email, std::string mdp, std::string payement)
+ ** @ref bool addComptePartage(std::string nom, std::string listePart)
+ ** @ref bool addCagnotte(int respo, int montant, std::string nom, std::string listePart)
+ ** @ref bool addDettes(int idcompte,int util1, int util2, int dette)
+ ** @ref QMap <QString, QString> getUtil(int id)
+ ** @ref QMap<QString, QString> getParticipants(int typeCompte, int id)
+ ** @ref QMap <QString, QString> getRespo(int idcagnotte)
+ ** @ref bool addHistorique(int idcagnotte, int codeaction, int util1, int montant)
+ ** @ref QString getNomCompte(int id)
+ ** @ref QString getNomCagnotte(int id)
+ ** @ref bool addPartCompt(QString email, int id)
+ ** @ref bool addPartCagnotte(QString email, int idCagnotte)
+ ** @ref QMap<int, QString> getListeCompte(std::string email)
+ ** @ref QMap <int,QString> getListeCagnotte(std::string email)
+ ** @ref QStringList getListeHistorique(int idCagnotte)
+ ** @ref int getFondsDispo(int idCagnotte)
+ ** @ref bool addFonds(QString fond, int m_id, int m_idcagnotte)
+ ** @ref bool retirerFonds(QString fond, int m_id, int m_idcagnotte)
+ ** @ref ~gestionnaireBDD()
+ **
+ **
+ ** @version 2.7
+ **
+ ** @author Thibault Odor, Marie-Luc Moselle, Emilia Goeury-Mayo
+ **/
+
 class gestionnaireBDD {
 private:
+    //base de donnée
     QSqlDatabase db;
+    //id propres aux comptes/cagnotte/historique
     int nbCompte;
     int nbCagnotte;
     int nbUtil;
     int nbHistorique;
+    //chemin vers la DB
     QString path;
+    //clé de cryptage pour mdp et payement
     int cleEncrypt;
+
 public:
-    //creation db
+    ///@brief Constructeur de gestionnaireBDD
     gestionnaireBDD(){
         this->cleEncrypt = (89473829);
 
@@ -36,6 +74,7 @@ public:
         QString sys = QOperatingSystemVersion::current().name();
         this->path = QDir::currentPath();
 
+        //Determine le système d'exploitation pour créer le chemin vers la base de données
         if(sys == "macOS" || sys=="Linux" || sys==""){
             QStringList list = this->path.split("ShareCount");
             this->path = list[0];
@@ -46,6 +85,7 @@ public:
             this->path.append("ShareCount\\ressources\\database.db");
         }
 
+        //tentative de connection à la DB
         this->db.setDatabaseName(this->path);
         this->db.open();
         try{
@@ -55,6 +95,7 @@ public:
                 nbCagnotte = 0;
                 nbUtil = 0;
                 nbHistorique = 0;
+                //appel pour remplir la DB
                 createDB();
             }else{
                 qDebug() << "Error: connection with database failed";
@@ -67,6 +108,7 @@ public:
         }
     }
 
+    ///@brief Fonction permettant de remplir la DB si elle est vide
     void createDB(){
         if(this->db.open()){
             QSqlQuery queryUtil(this->db);
@@ -162,6 +204,9 @@ public:
         }
     }
 
+    ///@brief Verifie qu'un utilisateur existe grace à son adresse mail (unique)
+    ///
+    /// @param std::string email : mail de l'utilisateur
     bool utilExist(std::string email){
         bool result = false;
         QSqlQuery query(this->db);
@@ -172,6 +217,11 @@ public:
         return result;
     }
 
+    ///@brief Verifie que les informations nécessaire à la connection sont valides
+    ///
+    /// @param std::string email : email de l'utilisateur
+    /// @param std::string mdp : mot de passe entré
+    /// @return Renvoie l'identifiant de l'utilisateur si les informations sont correctes sinon 0
     int informationConnexionValide(std::string email,std::string mdp){
             SimpleCrypt encrypt(this->cleEncrypt);
 
@@ -183,19 +233,25 @@ public:
                 QString verif = query.value(1).toString();
                 QString verif2 = encrypt.decryptToString(verif);
                 QString verif3 = encrypt.decryptToString(verif2);
-                if(verif3 == QString::fromStdString(mdp)){
+                if(verif3 == QString::fromStdString(mdp) || verif2 == QString::fromStdString(mdp)){
                     result = query.value(0).toInt();
                 }
             }
             return result;
         }
 
-    //idutil integer primary key, prenom varchar(20),nom varchar(20),email varchar(50), mdp varchar(20), payement varchar(19)
+    ///@brief Ajoute un utilisateur
+    ///
+    /// @param std::string prenom
+    /// @param std::string nom
+    /// @param std::string email : email de l'utilisateur
+    /// @param std::string mdp
+    /// @param std::string payement (non obligatoire)
+    /// @return renvoie un boolean, vrai si l'ajout s'est bien passé, faux sinon
     bool addUtil(std::string prenom, std::string nom, std::string email, std::string mdp, std::string payement){
         bool result = false;
         QSqlQuery query(this->db);
         this->nbUtil++;
-        //qDebug() << "nbUtil :" << this->nbUtil;
         if(!utilExist(email)){
             query.prepare("INSERT INTO utilisateur (idutil, prenom, nom, email, mdp, payement) "
                           "VALUES (?, ?, ?, ?, ?, ?)");
@@ -225,9 +281,12 @@ public:
         return result;
     }
 
-    //idcompte integer primary key, nom varchar(30), listePart varchar(30)
+    ///@brief Ajoute un ComptePartagé
+    ///
+    /// @param std::string nom
+    /// @param std::string listePart : liste des participants
+    /// @return renvoie un boolean, vrai si l'ajout s'est bien passé, faux sinon
     bool addComptePartage(std::string nom, std::string listePart){
-        //qDebug()  << "addCompte";
         this->nbCompte++;
         QSqlQuery query(this->db);
         query.prepare("INSERT INTO compte(idcompte,nom,listePart)"
@@ -239,10 +298,11 @@ public:
         return query.exec();
     }
 
-
-    //idcagnotte integer primary key, idRespo integer, montantDispo integer ,nom varchar(30), listePart varchar(30)
+    ///@brief Ajoute une cagnotte
+    ///
+    /// @param std::string
+    /// @return
     bool addCagnotte(int respo, int montant, std::string nom, std::string listePart){
-        //qDebug() << "addCagnotte";
         this->nbCagnotte++;
         QSqlQuery query(this->db);
         query.prepare("INSERT INTO cagnotte(idcagnotte,idRespo,montantDispo,nom,listePart)""VALUES(?,?,?,?,?)");
@@ -256,7 +316,10 @@ public:
     }
 
 
-    //idcompte int primary key, util1 int, util2 int, dette int
+    ///@brief Ajoute
+    ///
+    /// @param
+    /// @return
     bool addDettes(int idcompte,int util1, int util2, int dette){
         //qDebug() << "addDettes";
         QSqlQuery query(this->db);
@@ -501,7 +564,7 @@ public:
                 QString verif = query.value(0).toString();
                 QString verif2 = encrypt.decryptToString(verif);
                 QString verif3 = encrypt.decryptToString(verif2);
-                if(verif3 != "ABC" || verif3 !=""){
+                if(verif2 != "ABC" || verif2 !="" || verif3 != "ABC" || verif3 !=""){
                    query.exec("SELECT montantDispo FROM cagnotte WHERE idCagnotte="+QString::fromStdString(std::to_string(m_idcagnotte)));
                    if(query.next()){
                        int montant = query.value(0).toInt();
@@ -524,7 +587,7 @@ public:
                 QString verif = query.value(0).toString();
                 QString verif2 = encrypt.decryptToString(verif);
                 QString verif3 = encrypt.decryptToString(verif2);
-                if(verif3 != "ABC" || verif3 !=""){
+                if(verif2 != "ABC" || verif2 !="" || verif3 != "ABC" || verif3 !=""){
                    query.exec("SELECT montantDispo FROM cagnotte WHERE idCagnotte="+QString::fromStdString(std::to_string(m_idcagnotte)));
                    if(query.next()){
                        int montant = query.value(0).toInt();
