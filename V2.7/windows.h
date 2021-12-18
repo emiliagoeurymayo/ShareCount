@@ -57,6 +57,7 @@ private:
     QStringListModel *m_modelCagnotte;
     QStringListModel *m_model_listeparticipant_compte;
     QStringListModel *m_model_listeparticipant_cagnotte;
+    QStringListModel *m_model_listeHistorique;
 };
 
 #endif // WINDOWS_H

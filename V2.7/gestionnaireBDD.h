@@ -24,6 +24,7 @@ private:
     int nbCompte;
     int nbCagnotte;
     int nbUtil;
+    int nbHistorique;
     QString path;
     int cleEncrypt;
 public:
@@ -53,6 +54,7 @@ public:
                 nbCompte = 0;
                 nbCagnotte = 0;
                 nbUtil = 0;
+                nbHistorique = 0;
                 createDB();
             }else{
                 qDebug() << "Error: connection with database failed";
@@ -90,7 +92,7 @@ public:
             }
 
             QSqlQuery queryHistorique(this->db);
-            if(!queryHistorique.exec("create table if not exists historique(idcompte int primary key, codeAction int, util1 int, util2 int)")){
+            if(!queryHistorique.exec("create table if not exists historique(idNumHistorique int primary key, idcagnotte int, codeAction int, util1 int, montant int)")){
                 qDebug() << "Historique";
                 qDebug() << queryHistorique.lastError();
             }
@@ -113,6 +115,11 @@ public:
             if(queryIdCagnotte.next()){
                 this->nbCagnotte = queryIdCagnotte.value(0).toInt();
                 //qDebug() << "maxidcagnotte" << query7.value(0).toInt();
+            }
+            QSqlQuery queryNbHistorique(this->db);
+            queryNbHistorique.exec("select max(idNumHistorique) from historique");
+            if(queryNbHistorique.next()){
+                this->nbHistorique = queryNbHistorique.value(0).toInt();
             }
 
             if(this->nbUtil == 0){
@@ -143,7 +150,17 @@ public:
             if(this->nbCagnotte == 0){
                 addCagnotte(2, 0, "Cadeau maman", "1,2,3");
                 addCagnotte(1, 0, "Noel", "2,3");
+
+
             }
+
+            if(this->nbHistorique == 0){
+                addHistorique(1,1,1,10);
+                addHistorique(1,2,2,10);
+                addHistorique(2,1,2,10);
+                addHistorique(2,2,1,10);
+            }
+
         }
     }
 
@@ -159,20 +176,18 @@ public:
 
     int informationConnexionValide(std::string email,std::string mdp){
             SimpleCrypt encrypt(this->cleEncrypt);
-            QString encryptMdp = encrypt.encryptToString(QString::fromStdString(mdp));
 
             QSqlQuery query(this->db);
             int result = 0;
             query.prepare("SELECT idutil, mdp FROM utilisateur WHERE email ='"+QString::fromStdString(email)+"'");
             query.exec();
             if(query.next()){
-
                 QString verif = query.value(1).toString();
                 QString verif2 = encrypt.decryptToString(verif);
-                if(verif2 == QString::fromStdString(mdp)){
+                QString verif3 = encrypt.decryptToString(verif2);
+                if(verif3 == QString::fromStdString(mdp)){
                     result = query.value(0).toInt();
                 }
-
             }
             return result;
         }
@@ -312,14 +327,22 @@ public:
         return map;
     }
 
-    bool addHistorique(int idcompte, int codeaction, int util1, int util2){
+    bool addHistorique(int idcagnotte, int codeaction, int util1, int montant){
         QSqlQuery query(this->db);
-        return query.prepare("INSERT INTO historique(idcompte, codeAction, util1, util2)" "VALUES(?,?,?,?)");
-        query.addBindValue(idcompte);
+        this->nbHistorique++;
+        query.prepare("INSERT INTO historique(idNumHistorique, idcagnotte, codeAction, util1, montant)" "VALUES(?,?,?,?,?)");
+        query.addBindValue(this->nbHistorique);
+        query.addBindValue(idcagnotte);
         query.addBindValue(codeaction);
         query.addBindValue(util1);
-        query.addBindValue(util2);
-        return query.exec();
+        query.addBindValue(montant);
+        bool result = query.exec();
+        if(!result){
+            this->nbHistorique--;
+            qDebug() << query.lastError();
+            qDebug() << this->db.lastError();
+        }
+        return result;
     }
 
     QString getNomCompte(int id){
@@ -432,7 +455,43 @@ public:
             }
             return map;
         }
+        //1 ajout argent
+        //2 retirer argent
+        //(nbHistoriqueint primary key, idcompte int, codeAction int, util1 int, montant int)
+        QStringList getListeHistorique(int idCagnotte){
+            QStringList result;
+            QSqlQuery query(this->db);
+            query.prepare("SELECT * FROM historique WHERE idcagnotte="+QString::fromStdString(std::to_string(idCagnotte)));
+            query.exec();
+            QString action;
+            while(query.next()){
+                switch (query.value(2).toInt()){
+                case 1:
+                    action=" a ajouté ";
+                    break;
+                case 2:
+                    action=" a retiré ";
+                    break;
+                default:
+                    break;
+                }
+                QMap<QString, QString> personne = getUtil(query.value(3).toInt());
+                QString stc;
+                for(const auto &e : personne.toStdMap()){stc.append(e.first+" "+e.second);}
+                QString str = stc+action+query.value(4).toString()+"€";
+                qDebug() << "montant" << query.value(4).toInt();
+                result.append(str);
+            }
+            return result;
+        }
 
+        int getFondsDispo(int idCagnotte){
+            int result = 0;
+            QSqlQuery query(this->db);
+            query.exec("SELECT montant from cagnotte WHERE idcagnotte="+QString::fromStdString(std::to_string(idCagnotte)));
+            result = query.value(0).toInt();
+            return result;
+        }
         ~gestionnaireBDD(){
             this->db.close();
             QSqlDatabase::removeDatabase(this->path);

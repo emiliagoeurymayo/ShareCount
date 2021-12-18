@@ -58,7 +58,10 @@ public:
     bool addPartCompt(QString text, int idCompte);
     ///@brief Ajoute un participant à une cagnotte partagé
     bool addPartCagnotte(QString email, int idCagnotte);
-
+    ///@brief Retourne la liste d'action de la Cagnotte
+    QStringList getListeHistorique(int idCagnotte);
+    ///@breif Renvoie les fonds disponibles de la cagnotte
+    int getFondsDispo(int idCagnotte);
 private:
 
     ShareCount m_sharecount;

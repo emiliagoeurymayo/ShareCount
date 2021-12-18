@@ -713,25 +713,10 @@
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="1">
-       <widget class="QLabel" name="nomCagnotte">
-        <property name="font">
-         <font>
-          <pointsize>17</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="1">
        <widget class="QListView" name="liste_cagnotte"/>
       </item>
-      <item row="1" column="2">
+      <item row="1" column="3">
        <spacer name="horizontalSpacer_5">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -743,6 +728,13 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item row="5" column="1">
+       <widget class="QPushButton" name="retour_cagnotte">
+        <property name="text">
+         <string>Retour</string>
+        </property>
+       </widget>
       </item>
       <item row="2" column="1">
        <spacer name="verticalSpacer_2">
@@ -760,10 +752,41 @@
         </property>
        </spacer>
       </item>
-      <item row="5" column="1">
-       <widget class="QPushButton" name="retour_cagnotte">
+      <item row="6" column="1">
+       <spacer name="verticalSpacer_19">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Minimum</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="4" column="1">
+       <widget class="QPushButton" name="addPart_cagnotte">
         <property name="text">
-         <string>Retour</string>
+         <string>Add Participant</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="nomCagnotte">
+        <property name="font">
+         <font>
+          <pointsize>17</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -780,21 +803,7 @@
         </property>
        </spacer>
       </item>
-      <item row="3" column="1">
-       <widget class="QPushButton" name="addFond">
-        <property name="text">
-         <string>Add fonds</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QPushButton" name="addPart_cagnotte">
-        <property name="text">
-         <string>Add Participant</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
+      <item row="8" column="1">
        <spacer name="verticalSpacer_3">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -809,6 +818,23 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item row="3" column="1">
+       <widget class="QPushButton" name="addFond">
+        <property name="text">
+         <string>Add fonds</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QListView" name="liste_Historique"/>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="fondDispo">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

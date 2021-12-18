@@ -162,5 +162,18 @@ bool GestionnaireDialogue::addPartCompt(QString email, int idCompte){
 /// @return retourne True si l'operation c'est bien effectuée
 bool GestionnaireDialogue::addPartCagnotte(QString email, int idCagnotte){
     return m_gbdd.addPartCagnotte(email, idCagnotte);
+}
 
+///@brief Retourne une liste d'actions effectuées en rapport avec la cagnotte
+///
+/// @param int idCagnotte : id de la cagnotte en question
+QStringList GestionnaireDialogue::getListeHistorique(int idCagnotte){
+    return this->m_gbdd.getListeHistorique(idCagnotte);
+}
+
+///@brief Retourne les fonds disponibles d'une cagnotte
+///
+/// @param int idCagnotte : id de la cagnotte en question
+int GestionnaireDialogue::getFondsDispo(int idCagnotte){
+    return m_gbdd.getFondsDispo(idCagnotte);
 }

@@ -64,33 +64,41 @@ void windows::on_listComptePartage_clicked(const QModelIndex &index)
 {
     QString stcstring = index.data(Qt::DisplayRole).toString();
     int id = stcstring.split(".")[0].toInt();
-    m_model_listeparticipant_compte = new QStringListModel(this);
     this->m_idCompte = id;
+
+    m_model_listeparticipant_compte = new QStringListModel(this);
     QMap <QString, QString> map = m_gestionnaireDialogue.getParticipants(1, this->m_idCompte);
     QStringList stc;
         for(const auto &e : map.toStdMap()){
             stc.append(e.first+" "+e.second);
         }
-    m_model_listeparticipant_compte->setStringList(stc);
+    m_model_listeparticipant_compte->setStringList(stc);  
     QString str = m_gestionnaireDialogue.getNomCompte(this->m_idCompte);
     ui->liste_compte->setModel(m_model_listeparticipant_compte);
     ui->nomCompte->setText(str);
     ui->stackedWidget->setCurrentIndex(5);
 }
 
-void windows::on_listCagnotte_clicked(const QModelIndex &index)
-{
+void windows::on_listCagnotte_clicked(const QModelIndex &index){
     QString stcstring = index.data(Qt::DisplayRole).toString();
     int id = stcstring.split(".")[0].toInt();
+
     m_model_listeparticipant_cagnotte = new QStringListModel(this);
     this->m_idCagnotte = id;
     QMap <QString, QString> map = m_gestionnaireDialogue.getParticipants(2, this->m_idCagnotte);
     QStringList stc;
         for(const auto &e : map.toStdMap()){stc.append(e.first+" "+e.second);}
     m_model_listeparticipant_cagnotte->setStringList(stc);
+
+    m_model_listeHistorique = new QStringListModel(this);
+    QStringList histo = m_gestionnaireDialogue.getListeHistorique(m_idCagnotte);
+    m_model_listeHistorique->setStringList(histo);
+
     QString str = m_gestionnaireDialogue.getNomCagnotte(this->m_idCagnotte);
     ui->liste_cagnotte->setModel(m_model_listeparticipant_cagnotte);
+    ui->liste_Historique->setModel(m_model_listeHistorique);
     ui->nomCagnotte->setText(str);
+    ui->fondDispo->setText("Fonds disponibles : "+QString::number(m_gestionnaireDialogue.getFondsDispo(this->m_idCagnotte)));
     ui->stackedWidget->setCurrentIndex(4);
 }
 
@@ -176,3 +184,4 @@ void windows::clearList(){
     ui->listComptePartage->setModel(new QStringListModel);
     ui->listCagnotte->setModel(new QStringListModel);
 }
+
