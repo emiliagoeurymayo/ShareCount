@@ -300,8 +300,11 @@ public:
 
     ///@brief Ajoute une cagnotte
     ///
-    /// @param std::string
-    /// @return
+    /// @param int respo : id de l'utilisateur qui crée la cagnotte
+    /// @param int montant : montant ajouté au départ
+    /// @param std::string nom
+    /// @param std::string listePart
+    /// @return renvoie un boolean, vrai si l'ajout s'est bien passé, faux sinon
     bool addCagnotte(int respo, int montant, std::string nom, std::string listePart){
         this->nbCagnotte++;
         QSqlQuery query(this->db);
@@ -316,12 +319,14 @@ public:
     }
 
 
-    ///@brief Ajoute
+    /// @brief Ajoute une dette entre un utilisateur 1 et un utilisateur 2
     ///
-    /// @param
-    /// @return
+    /// @param int idcompte : id du compte concerné
+    /// @param int util1
+    /// @param int util2
+    /// @param int dette : montant de la dette
+    /// @return renvoie un boolean, vrai si l'ajout s'est bien passé, faux sinon
     bool addDettes(int idcompte,int util1, int util2, int dette){
-        //qDebug() << "addDettes";
         QSqlQuery query(this->db);
         query.prepare("INSERT INTO dettes(idcompte, util1, util2, dette)""VALUES(?,?,?,?)");
         query.addBindValue(idcompte);
@@ -331,6 +336,10 @@ public:
         return query.exec();
     }
 
+    /// @brief Renvoie le prenom, nom d'un utilisateur
+    ///
+    /// @param int id : id de l'utilisateur
+    /// @return QMap <QString, QString> contenant le prenom et nom
     QMap <QString, QString> getUtil(int id){
         QSqlQuery query(this->db);
         QMap <QString, QString> result;
@@ -344,6 +353,11 @@ public:
 
     //typeCompte = 1 comptepartagé || 2 Cagnotte
     //id = numéro du compte
+    /// @brief Renvoie une QMap contenant tout les id, prenom+nom
+    ///
+    /// @param int typeCompte : determine si compte partagé(1) ou cagnotte(2)
+    /// @param int id : id du compte/cagnotte dont il fau
+    /// @return
     QMap<QString, QString> getParticipants(int typeCompte, int id){
 
         QString part;
@@ -376,6 +390,10 @@ public:
         return map;
     }
 
+    /// @brief
+    ///
+    /// @param
+    /// @return
     QMap <QString, QString> getRespo(int idcagnotte){
         QSqlQuery query(this->db);
         QMap<QString , QString> map;
@@ -387,6 +405,10 @@ public:
         return map;
     }
 
+    /// @brief
+    ///
+    /// @param
+    /// @return
     bool addHistorique(int idcagnotte, int codeaction, int util1, int montant){
         QSqlQuery query(this->db);
         this->nbHistorique++;
@@ -405,6 +427,10 @@ public:
         return result;
     }
 
+    /// @brief
+    ///
+    /// @param
+    /// @return
     QString getNomCompte(int id){
             QString result;
             QSqlQuery query(this->db);
@@ -414,6 +440,11 @@ public:
             }
            return result;
         }
+
+    /// @brief
+    ///
+    /// @param
+    /// @return
     QString getNomCagnotte(int id){
         QString result;
         QSqlQuery query(this->db);
@@ -424,6 +455,10 @@ public:
        return result;
     }
 
+        /// @brief
+        ///
+        /// @param
+        /// @return
         bool addPartCompt(QString email, int id){
             bool result = false;
             std::string stc = email.toStdString();
@@ -447,6 +482,10 @@ public:
             return result;
         }
 
+        /// @brief
+        ///
+        /// @param
+        /// @return
         bool addPartCagnotte(QString email, int idCagnotte){
             bool result = false;
             std::string stc = email.toStdString();
@@ -472,6 +511,11 @@ public:
             return result;
         }
 
+
+        /// @brief
+        ///
+        /// @param
+        /// @return
         QMap<int, QString> getListeCompte(std::string email){
             QString mail = QString::fromStdString(email);
             QString list;
@@ -494,6 +538,10 @@ public:
             return map;
         }
 
+        /// @brief
+        ///
+        /// @param
+        /// @return
         QMap <int,QString> getListeCagnotte(std::string email){
             QString mail = QString::fromStdString(email);
             QString list;
@@ -515,9 +563,15 @@ public:
             }
             return map;
         }
+
+
         //1 ajout argent
         //2 retirer argent
         //(nbHistoriqueint primary key, idcompte int, codeAction int, util1 int, montant int)
+        /// @brief
+        ///
+        /// @param
+        /// @return
         QStringList getListeHistorique(int idCagnotte){
             QStringList result;
             QSqlQuery query(this->db);
@@ -544,6 +598,11 @@ public:
             return result;
         }
 
+
+        /// @brief
+        ///
+        /// @param
+        /// @return
         int getFondsDispo(int idCagnotte){
             int result = 0;
             QSqlQuery query(this->db);
@@ -554,7 +613,12 @@ public:
             return result;
         }
 
+
         //int idcagnotte, int codeaction, int util1, int montant
+        /// @brief
+        ///
+        /// @param
+        /// @return
         bool addFonds(QString fond, int m_id, int m_idcagnotte){
             SimpleCrypt encrypt(this->cleEncrypt);
             bool result = false;
@@ -578,6 +642,10 @@ public:
             return result;
         }
 
+        /// @brief
+        ///
+        /// @param
+        /// @return
         bool retirerFonds(QString fond, int m_id, int m_idcagnotte){
             SimpleCrypt encrypt(this->cleEncrypt);
             bool result = false;
@@ -604,6 +672,11 @@ public:
 
         }
 
+
+        /// @brief
+        ///
+        /// @param
+        /// @return
         ~gestionnaireBDD(){
             this->db.close();
             QSqlDatabase::removeDatabase(this->path);
