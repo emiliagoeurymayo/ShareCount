@@ -177,3 +177,21 @@ QStringList GestionnaireDialogue::getListeHistorique(int idCagnotte){
 int GestionnaireDialogue::getFondsDispo(int idCagnotte){
     return m_gbdd.getFondsDispo(idCagnotte);
 }
+
+///@brief Ajoute de l'argent à la cagnotte
+///
+/// @param fond : montant à rajouter
+/// @param m_id : id de l'utilisateur
+/// @param m_idcagnotte : id de la cagnotte
+bool GestionnaireDialogue::addFonds(QString fond, int m_id, int m_idcagnotte){
+    return m_gbdd.addFonds(fond, m_id, m_idcagnotte);
+}
+
+///@brief Ajoute de l'argent à la cagnotte
+///
+/// @param m_id : id de l'utilisateur
+/// @param m_idcagnotte : id de la cagnotte
+bool GestionnaireDialogue::retirerFonds(QString fond, int m_id, int m_idcagnotte){
+    return m_gbdd.retirerFonds(fond, m_id, m_idcagnotte);
+
+}

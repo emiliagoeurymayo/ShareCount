@@ -98,7 +98,7 @@ void windows::on_listCagnotte_clicked(const QModelIndex &index){
     ui->liste_cagnotte->setModel(m_model_listeparticipant_cagnotte);
     ui->liste_Historique->setModel(m_model_listeHistorique);
     ui->nomCagnotte->setText(str);
-    ui->fondDispo->setText("Fonds disponibles : "+QString::number(m_gestionnaireDialogue.getFondsDispo(this->m_idCagnotte)));
+    ui->fondDispo->setText("Fonds disponibles : "+QString::number(m_gestionnaireDialogue.getFondsDispo(this->m_idCagnotte))+"€");
     ui->stackedWidget->setCurrentIndex(4);
 }
 
@@ -117,9 +117,10 @@ void windows::on_addPart_cagnotte_clicked()
 
 void windows::on_addPart_compte_clicked()
 {
-    QString email = QInputDialog::getText(this, "Input dialog",
-                                            "Adresse Email du nouveau participant", QLineEdit::Normal);
+    QString email = QInputDialog::getText(this, "Input dialog","Adresse Email du nouveau participant", QLineEdit::Normal);
+
     qDebug() <<"result addPartCompt" <<m_gestionnaireDialogue.addPartCompt(email, this->m_idCompte);
+
     QMap <QString, QString> map = m_gestionnaireDialogue.getParticipants(1,this->m_idCompte);
     QStringList stc;
     for(const auto &e : map.toStdMap()){stc.append(e.first+" "+e.second);}
@@ -183,5 +184,27 @@ void windows::on_bouttonConnexion_clicked()
 void windows::clearList(){
     ui->listComptePartage->setModel(new QStringListModel);
     ui->listCagnotte->setModel(new QStringListModel);
+}
+
+
+void windows::on_addFond_clicked(){
+    QString fond = QInputDialog::getText(this, "Input dialog","Fonds à ajouter", QLineEdit::Normal);
+    if(m_gestionnaireDialogue.addFonds(fond, m_id, m_idCagnotte)){
+        ui->fondDispo->setText("Fonds disponibles : "+QString::number(m_gestionnaireDialogue.getFondsDispo(this->m_idCagnotte))+"€");
+        QStringList histo = m_gestionnaireDialogue.getListeHistorique(m_idCagnotte);
+        m_model_listeHistorique->setStringList(histo);
+        ui->liste_Historique->setModel(m_model_listeHistorique);
+    }
+}
+
+
+void windows::on_retirerFond_clicked(){
+    QString fond = QInputDialog::getText(this, "Input dialog","Fonds à retirer", QLineEdit::Normal);
+    if(m_gestionnaireDialogue.retirerFonds(fond, m_id, m_idCagnotte)){
+        ui->fondDispo->setText("Fonds disponibles : "+QString::number(m_gestionnaireDialogue.getFondsDispo(this->m_idCagnotte))+"€");
+        QStringList histo = m_gestionnaireDialogue.getListeHistorique(m_idCagnotte);
+        m_model_listeHistorique->setStringList(histo);
+        ui->liste_Historique->setModel(m_model_listeHistorique);
+    }
 }
 

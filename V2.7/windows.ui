@@ -716,6 +716,13 @@
       <item row="1" column="1">
        <widget class="QListView" name="liste_cagnotte"/>
       </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="fondDispo">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="3">
        <spacer name="horizontalSpacer_5">
         <property name="orientation">
@@ -729,7 +736,7 @@
         </property>
        </spacer>
       </item>
-      <item row="5" column="1">
+      <item row="6" column="1">
        <widget class="QPushButton" name="retour_cagnotte">
         <property name="text">
          <string>Retour</string>
@@ -752,7 +759,7 @@
         </property>
        </spacer>
       </item>
-      <item row="6" column="1">
+      <item row="7" column="1">
        <spacer name="verticalSpacer_19">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -768,10 +775,17 @@
         </property>
        </spacer>
       </item>
-      <item row="4" column="1">
+      <item row="5" column="1">
        <widget class="QPushButton" name="addPart_cagnotte">
         <property name="text">
          <string>Add Participant</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QPushButton" name="retirerFond">
+        <property name="text">
+         <string>Retirer fonds</string>
         </property>
        </widget>
       </item>
@@ -803,7 +817,7 @@
         </property>
        </spacer>
       </item>
-      <item row="8" column="1">
+      <item row="10" column="1">
        <spacer name="verticalSpacer_3">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -826,13 +840,16 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="1">
+      <item row="9" column="1">
        <widget class="QListView" name="liste_Historique"/>
       </item>
-      <item row="1" column="2">
-       <widget class="QLabel" name="fondDispo">
+      <item row="8" column="1">
+       <widget class="QLabel" name="label_12">
         <property name="text">
-         <string>TextLabel</string>
+         <string>Actions passées</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>

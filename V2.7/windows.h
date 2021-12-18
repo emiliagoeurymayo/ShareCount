@@ -46,6 +46,10 @@ private slots:
     void on_bouttonConnexion_clicked();
     void clearList();
 
+    void on_addFond_clicked();
+
+    void on_retirerFond_clicked();
+
 private:
     Ui::windows *ui;
     GestionnaireDialogue m_gestionnaireDialogue;

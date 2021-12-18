@@ -150,15 +150,13 @@ public:
             if(this->nbCagnotte == 0){
                 addCagnotte(2, 0, "Cadeau maman", "1,2,3");
                 addCagnotte(1, 0, "Noel", "2,3");
-
-
             }
 
             if(this->nbHistorique == 0){
                 addHistorique(1,1,1,10);
                 addHistorique(1,2,2,10);
                 addHistorique(2,1,2,10);
-                addHistorique(2,2,1,10);
+                addHistorique(2,2,3,10);
             }
 
         }
@@ -301,7 +299,6 @@ public:
         }
 
         QStringList list = part.split(",");
-        qDebug() << "liste" << list;
         QMap<QString , QString> map;
 
 
@@ -479,7 +476,6 @@ public:
                 QString stc;
                 for(const auto &e : personne.toStdMap()){stc.append(e.first+" "+e.second);}
                 QString str = stc+action+query.value(4).toString()+"€";
-                qDebug() << "montant" << query.value(4).toInt();
                 result.append(str);
             }
             return result;
@@ -488,10 +484,63 @@ public:
         int getFondsDispo(int idCagnotte){
             int result = 0;
             QSqlQuery query(this->db);
-            query.exec("SELECT montant from cagnotte WHERE idcagnotte="+QString::fromStdString(std::to_string(idCagnotte)));
-            result = query.value(0).toInt();
+            query.exec("SELECT montantDispo from cagnotte WHERE idcagnotte="+QString::fromStdString(std::to_string(idCagnotte)));
+            if(query.next()){
+                result = query.value(0).toInt();
+            }
             return result;
         }
+
+        //int idcagnotte, int codeaction, int util1, int montant
+        bool addFonds(QString fond, int m_id, int m_idcagnotte){
+            SimpleCrypt encrypt(this->cleEncrypt);
+            bool result = false;
+            QSqlQuery query(this->db);
+            query.exec("SELECT payement FROM utilisateur WHERE idutil="+QString::fromStdString(std::to_string(m_id)));
+            if(query.next()){
+                QString verif = query.value(0).toString();
+                QString verif2 = encrypt.decryptToString(verif);
+                QString verif3 = encrypt.decryptToString(verif2);
+                if(verif3 != "ABC" || verif3 !=""){
+                   query.exec("SELECT montantDispo FROM cagnotte WHERE idCagnotte="+QString::fromStdString(std::to_string(m_idcagnotte)));
+                   if(query.next()){
+                       int montant = query.value(0).toInt();
+                       int ajout = fond.toInt();
+                       montant += ajout;
+                       result = query.exec("UPDATE cagnotte set montantDispo="+QString::fromStdString(std::to_string(montant))+" WHERE idcagnotte="+QString::fromStdString(std::to_string(m_idcagnotte)));
+                       addHistorique(m_idcagnotte, 1, m_id,fond.toInt());
+                   }
+                }
+            }
+            return result;
+        }
+
+        bool retirerFonds(QString fond, int m_id, int m_idcagnotte){
+            SimpleCrypt encrypt(this->cleEncrypt);
+            bool result = false;
+            QSqlQuery query(this->db);
+            query.exec("SELECT payement FROM utilisateur WHERE idutil="+QString::fromStdString(std::to_string(m_id)));
+            if(query.next()){
+                QString verif = query.value(0).toString();
+                QString verif2 = encrypt.decryptToString(verif);
+                QString verif3 = encrypt.decryptToString(verif2);
+                if(verif3 != "ABC" || verif3 !=""){
+                   query.exec("SELECT montantDispo FROM cagnotte WHERE idCagnotte="+QString::fromStdString(std::to_string(m_idcagnotte)));
+                   if(query.next()){
+                       int montant = query.value(0).toInt();
+                       int ajout = fond.toInt();
+                       if(montant >= ajout){
+                           montant -= ajout;
+                           result = query.exec("UPDATE cagnotte set montantDispo="+QString::fromStdString(std::to_string(montant))+" WHERE idcagnotte="+QString::fromStdString(std::to_string(m_idcagnotte)));
+                           addHistorique(m_idcagnotte, 2, m_id,fond.toInt());
+                       }
+                   }
+                }
+            }
+            return result;
+
+        }
+
         ~gestionnaireBDD(){
             this->db.close();
             QSqlDatabase::removeDatabase(this->path);

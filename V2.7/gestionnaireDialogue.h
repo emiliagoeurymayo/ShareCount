@@ -62,6 +62,10 @@ public:
     QStringList getListeHistorique(int idCagnotte);
     ///@breif Renvoie les fonds disponibles de la cagnotte
     int getFondsDispo(int idCagnotte);
+    ///@brief ajoute de l'argent à la cagnotte
+    bool addFonds(QString fond, int m_id, int m_idcagnotte);
+    ///@brief retire de l'argent à la cagnotte
+    bool retirerFonds(QString fond, int m_id, int m_idcagnotte);
 private:
 
     ShareCount m_sharecount;
