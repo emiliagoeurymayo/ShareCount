@@ -10,41 +10,26 @@ CONFIG += c++11
 
 SOURCES += \
     cagnotte.cpp \
-    accueilutilisateur.cpp \
-    cagnotteaff.cpp \
     compte.cpp \
     comptePartage.cpp \
-    compteaff.cpp \
-    connexion.cpp \
     gestionnaireDialogue.cpp \
     serveurMail.cpp \
     shareCount.cpp \
-    connexioninscription.cpp \
-    inscription.cpp \
-    main.cpp
+    main.cpp \
+    windows.cpp
 
 HEADERS += \
     cagnotte.h \
-    cagnotteaff.h \
     compte.h \
     comptePartage.h \
-    compteaff.h \
-    connexion.h \
     gestionnaireDialogue.h \
     serveurMail.h \
     shareCount.h \
-    connexioninscription.h \
-    inscription.h \
-    accueilutilisateur.h \
-    gestionnaireBDD.h
+    gestionnaireBDD.h \
+    windows.h
 
 FORMS += \
-    cagnotteAff.ui \
-    compteAff.ui \
-    connexion.ui \
-    connexioninscription.ui \
-    accueilutilisateur.ui \
-    inscription.ui
+    windows.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
