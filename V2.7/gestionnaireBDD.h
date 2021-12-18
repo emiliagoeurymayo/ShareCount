@@ -357,7 +357,7 @@ public:
     ///
     /// @param int typeCompte : determine si compte partagé(1) ou cagnotte(2)
     /// @param int id : id du compte/cagnotte dont il fau
-    /// @return
+    /// @return QMap<QString, QString> contenant id, prenom+nom
     QMap<QString, QString> getParticipants(int typeCompte, int id){
 
         QString part;
@@ -390,10 +390,10 @@ public:
         return map;
     }
 
-    /// @brief
+    /// @brief Renvoie prenom, nom du responsable de cagnotte
     ///
-    /// @param
-    /// @return
+    /// @param int idcagnotte
+    /// @return QMap <QString, QString> prenom, nom
     QMap <QString, QString> getRespo(int idcagnotte){
         QSqlQuery query(this->db);
         QMap<QString , QString> map;
@@ -405,10 +405,14 @@ public:
         return map;
     }
 
-    /// @brief
+    /// @brief Ajoute une sauvegarde des cations effectuées sur une cagnotte
     ///
-    /// @param
-    /// @return
+    /// @param int idcagnotte
+    /// @param int codeaction : type d'action sur la cagnotte
+    /// @param int util1
+    /// @param int util2
+    /// @param int montant
+    /// @return renvoie un boolean, vrai si l'ajout s'est bien passé, faux sinon
     bool addHistorique(int idcagnotte, int codeaction, int util1, int montant){
         QSqlQuery query(this->db);
         this->nbHistorique++;
@@ -427,10 +431,10 @@ public:
         return result;
     }
 
-    /// @brief
+    /// @brief Renvoie le nom d'un compte
     ///
-    /// @param
-    /// @return
+    /// @param int id : id compte
+    /// @return QString
     QString getNomCompte(int id){
             QString result;
             QSqlQuery query(this->db);
@@ -441,10 +445,10 @@ public:
            return result;
         }
 
-    /// @brief
+    /// @brief Renvoie le nom d'une cagnotte
     ///
-    /// @param
-    /// @return
+    /// @param int id = id de la cagnotte
+    /// @return QString
     QString getNomCagnotte(int id){
         QString result;
         QSqlQuery query(this->db);
@@ -455,10 +459,11 @@ public:
        return result;
     }
 
-        /// @brief
+        /// @brief Ajoute un utilisateur à un Compte partagé
         ///
-        /// @param
-        /// @return
+        /// @param QString email : email de l'utilisateur
+        /// @param int id : id du compte
+        /// @return renvoie un boolean, vrai si l'ajout s'est bien passé, faux sinon
         bool addPartCompt(QString email, int id){
             bool result = false;
             std::string stc = email.toStdString();
@@ -482,10 +487,11 @@ public:
             return result;
         }
 
-        /// @brief
+        /// @brief Ajoute un utilisateur à un Compte partagé
         ///
-        /// @param
-        /// @return
+        /// @param QString email : email de l'utilisateur
+        /// @param int id : id du compte
+        /// @return renvoie un boolean, vrai si l'ajout s'est bien passé, faux sinon
         bool addPartCagnotte(QString email, int idCagnotte){
             bool result = false;
             std::string stc = email.toStdString();
@@ -512,10 +518,10 @@ public:
         }
 
 
-        /// @brief
+        /// @brief Renvoie la liste des comptes auquel participe un utilisateur
         ///
-        /// @param
-        /// @return
+        /// @param std::string email : email de l'utilisateur
+        /// @return QMap<int, QString> contenant idCompte et nom du compte
         QMap<int, QString> getListeCompte(std::string email){
             QString mail = QString::fromStdString(email);
             QString list;
@@ -538,10 +544,10 @@ public:
             return map;
         }
 
-        /// @brief
+        /// @brief Renvoie la liste des cagnotte auquel participe un utilisateur
         ///
-        /// @param
-        /// @return
+        /// @param std::string email : email de l'utilisateur
+        /// @return QMap<int, QString> contenant idCagnotte et nom de la cagnotte
         QMap <int,QString> getListeCagnotte(std::string email){
             QString mail = QString::fromStdString(email);
             QString list;
@@ -568,10 +574,10 @@ public:
         //1 ajout argent
         //2 retirer argent
         //(nbHistoriqueint primary key, idcompte int, codeAction int, util1 int, montant int)
-        /// @brief
+        /// @brief Renvoie la liste des actions effectuées dans une cagnotte
         ///
-        /// @param
-        /// @return
+        /// @param int idCagnotte
+        /// @return QStringList
         QStringList getListeHistorique(int idCagnotte){
             QStringList result;
             QSqlQuery query(this->db);
@@ -599,10 +605,10 @@ public:
         }
 
 
-        /// @brief
+        /// @brief Renvoie le montant des fonds disponibles d'une cagnotte
         ///
-        /// @param
-        /// @return
+        /// @param int idCagnotte
+        /// @return int
         int getFondsDispo(int idCagnotte){
             int result = 0;
             QSqlQuery query(this->db);
@@ -615,10 +621,12 @@ public:
 
 
         //int idcagnotte, int codeaction, int util1, int montant
-        /// @brief
+        /// @brief Rajoute des fonds à une cagnotte
         ///
-        /// @param
-        /// @return
+        /// @param QString fond : montant à rajouter
+        /// @param int m_id : id de l'utilisateur qui rajoute
+        /// @param int m_idcagnotte
+        /// @return renvoie un boolean, vrai si l'ajout s'est bien passé, faux sinon
         bool addFonds(QString fond, int m_id, int m_idcagnotte){
             SimpleCrypt encrypt(this->cleEncrypt);
             bool result = false;
@@ -642,10 +650,12 @@ public:
             return result;
         }
 
-        /// @brief
+        /// @brief Enlève des fonds à une cagnotte
         ///
-        /// @param
-        /// @return
+        /// @param QString fond : montant à enlever
+        /// @param int m_id : id de l'utilisateur qui enlève
+        /// @param int m_idcagnotte
+        /// @return renvoie un boolean, vrai si l'ajout s'est bien passé, faux sinon
         bool retirerFonds(QString fond, int m_id, int m_idcagnotte){
             SimpleCrypt encrypt(this->cleEncrypt);
             bool result = false;
@@ -673,10 +683,7 @@ public:
         }
 
 
-        /// @brief
-        ///
-        /// @param
-        /// @return
+        /// @brief Destructeur
         ~gestionnaireBDD(){
             this->db.close();
             QSqlDatabase::removeDatabase(this->path);
