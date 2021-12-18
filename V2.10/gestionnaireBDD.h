@@ -27,7 +27,7 @@
  ** @ref bool addUtil(std::string prenom, std::string nom, std::string email, std::string mdp, std::string payement)
  ** @ref bool addComptePartage(std::string nom, std::string listePart)
  ** @ref bool addCagnotte(int respo, int montant, std::string nom, std::string listePart)
- ** @ref bool addDettes(int idcompte,int util1, int util2, int dette)
+ ** @ref bool (int idcompte,int util1, int util2, int dette)
  ** @ref QMap <QString, QString> getUtil(int id)
  ** @ref QMap<QString, QString> getParticipants(int typeCompte, int id)
  ** @ref QMap <QString, QString> getRespo(int idcagnotte)
@@ -59,6 +59,7 @@ private:
     int nbCagnotte;
     int nbUtil;
     int nbHistorique;
+    int nbDettes;
     //chemin vers la DB
     QString path;
 
@@ -92,6 +93,7 @@ public:
                 nbCagnotte = 0;
                 nbUtil = 0;
                 nbHistorique = 0;
+                nbDettes = 0;
                 //appel pour remplir la DB
                 createDB();
             }else{
@@ -120,7 +122,7 @@ public:
             }
 
             QSqlQuery queryDettes(this->db);
-            if(!queryDettes.exec("create table if not exists dettes (idcompte int primary key, util1 int, util2 int, dette int)")){
+            if(!queryDettes.exec("create table if not exists dettes (idDette int primary key, idcompte, util1 int, util2 int, dette int)")){
                 qDebug() << "dette";
                 qDebug() << queryDettes.lastError();
             }
@@ -161,6 +163,12 @@ public:
                 this->nbHistorique = queryNbHistorique.value(0).toInt();
             }
 
+            QSqlQuery queryDette(this->db);
+            queryNbHistorique.exec("select max(nbDettes) from dettes");
+            if(queryNbHistorique.next()){
+                this->nbDettes = queryDette.value(0).toInt();
+            }
+
             if(this->nbUtil == 0){
 
                 addUtil("Thibault","Odor","to@test.fr","mdp", "1234567891234567891");
@@ -174,9 +182,6 @@ public:
                 addComptePartage("Soiree 29/11", "1,2,3");
                 addComptePartage("Noel", "2,3,4");
                 addComptePartage("Restaurant 12/06","3,4");
-                addDettes(1, 1, 2, 30);
-                addDettes(2, 3, 2, 1);
-                addDettes(3, 1, 3, 80);
             }
 
             if(this->nbCagnotte == 0){
@@ -190,7 +195,11 @@ public:
                 addHistorique(2,1,2,10);
                 addHistorique(2,2,3,10);
             }
-
+            if(this->nbDettes){
+                addDettes(1, 1, 2, 30);
+                addDettes(2, 3, 2, 1);
+                addDettes(3, 1, 3, 80);
+            }
         }
     }
 
@@ -319,13 +328,18 @@ public:
             query.addBindValue(idcompte);
             query.addBindValue(util1);
             query.addBindValue(util2);
-            query.addBindValue(dette);
+            result = query.exec();
             int stc = query.value(0).toInt();
             stc += dette;
-            query.prepare("UPDATE dettes SET dette="+QString::fromStdString(std::to_string(dette))+" WHERE idcompte="+QString::fromStdString(std::to_string(idcompte))+" AND util1="+QString::fromStdString(std::to_string(util1))+" AND util2="+QString::fromStdString(std::to_string(util2)));
+            query.prepare("UPDATE dettes SET dette="+QString::fromStdString(std::to_string(dette))+" WHERE(idcompte, util1, util2)""VALUES(?,?,?)"); //+QString::fromStdString(std::to_string(idcompte))+" AND util1="+QString::fromStdString(std::to_string(util1))+" AND util2="+QString::fromStdString(std::to_string(util2)));
+            query.addBindValue(idcompte);
+            query.addBindValue(util1);
+            query.addBindValue(util2);
             result = query.exec();
         }else{
-            query.prepare("INSERT INTO dettes(idcompte, util1, util2, dette)""VALUES(?,?,?,?)");
+            query.prepare("INSERT INTO dettes(idDette, idcompte, util1, util2, dette)""VALUES(?,?,?,?,?)");
+            this->nbDettes++;
+            query.addBindValue(this->nbDettes);
             query.addBindValue(idcompte);
             query.addBindValue(util1);
             query.addBindValue(util2);
@@ -688,15 +702,15 @@ public:
                     QString action;
                     while(query.next()){
                         //CREATE TABLE dettes (idcompte int primary key, util1 int, util2 int, dette int)
-                        QMap <QString, QString> util1 = getUtil(query.value(1).toInt());
-                        QMap <QString, QString> util2 = getUtil(query.value(2).toInt());
+                        QMap <QString, QString> util1 = getUtil(query.value(2).toInt());
+                        QMap <QString, QString> util2 = getUtil(query.value(3).toInt());
                         QString util1str ="";
                         QString util2str ="";
 
                         for(const auto &e : util1.toStdMap()){util1str.append(e.first+" "+e.second);}
                         for(const auto &e : util2.toStdMap()){util2str.append(e.first+" "+e.second);}
 
-                        QString final = util2str+" doit à "+util1str+" "+query.value(3).toString()+"€";
+                        QString final = util2str+" doit à "+util1str+" "+query.value(4).toString()+"€";
                         result.append(final);
                     }
                     return result;

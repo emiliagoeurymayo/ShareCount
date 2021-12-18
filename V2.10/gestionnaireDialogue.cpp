@@ -200,6 +200,6 @@ QStringList GestionnaireDialogue::getListeDettes(int m_idcompte){
     return m_gbdd.getListeDettes(m_idcompte);
 }
 
-void GestionnaireDialogue::addDettes(int idcompte,int idutil1,int idutil2,int montant){
-    m_gbdd.addDettes(idcompte,idutil1,idutil2,montant);
+bool GestionnaireDialogue::addDettes(int idcompte,int idutil1,int idutil2,int montant){
+    return m_gbdd.addDettes(idcompte,idutil1,idutil2,montant);
 }
