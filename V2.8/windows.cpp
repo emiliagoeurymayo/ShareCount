@@ -72,9 +72,15 @@ void windows::on_listComptePartage_clicked(const QModelIndex &index)
         for(const auto &e : map.toStdMap()){
             stc.append(e.first+" "+e.second);
         }
-    m_model_listeparticipant_compte->setStringList(stc);  
+    m_model_listeparticipant_compte->setStringList(stc);
+
+    m_model_listeDettes = new QStringListModel(this);
+    QStringList dettes = m_gestionnaireDialogue.getListeDettes(m_idCompte);
+    m_model_listeDettes->setStringList(dettes);
+
     QString str = m_gestionnaireDialogue.getNomCompte(this->m_idCompte);
     ui->liste_compte->setModel(m_model_listeparticipant_compte);
+    ui->listeDettes->setModel(m_model_listeDettes);
     ui->nomCompte->setText(str);
     ui->stackedWidget->setCurrentIndex(5);
 }

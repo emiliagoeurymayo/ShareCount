@@ -195,3 +195,7 @@ bool GestionnaireDialogue::retirerFonds(QString fond, int m_id, int m_idcagnotte
     return m_gbdd.retirerFonds(fond, m_id, m_idcagnotte);
 
 }
+
+QStringList GestionnaireDialogue::getListeDettes(int m_idcompte){
+    return m_gbdd.getListeDettes(m_idcompte);
+}

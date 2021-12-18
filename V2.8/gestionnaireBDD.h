@@ -656,6 +656,32 @@ public:
 
         }
 
+        /// @brief Renvoie la liste des dettes dans un compte
+        ///
+        /// @param int m_idcompte
+        /// @return QStringList
+        QStringList getListeDettes(int m_idcompte){
+            QStringList result;
+            QSqlQuery query(this->db);
+            query.prepare("SELECT * FROM dettes WHERE idcompte="+QString::fromStdString(std::to_string(m_idcompte)));
+            query.exec();
+            QString action;
+            while(query.next()){
+                //CREATE TABLE dettes (idcompte int primary key, util1 int, util2 int, dette int)
+                QMap <QString, QString> util1 = getUtil(query.value(1).toInt());
+                QMap <QString, QString> util2 = getUtil(query.value(2).toInt());
+                QString util1str ="";
+                QString util2str ="";
+
+                for(const auto &e : util1.toStdMap()){util1str.append(e.first+" "+e.second);}
+                for(const auto &e : util2.toStdMap()){util2str.append(e.first+" "+e.second);}
+
+                QString final = util2str+"doit à "+util1str+" "+query.value(3).toString()+"€";
+                result.append(final);
+            }
+            return result;
+        }
+
 
         /// @brief Destructeur
         ~gestionnaireBDD(){
