@@ -393,8 +393,12 @@ public:
                 query.prepare("SELECT listePart,nom,idcagnotte FROM cagnotte");
                 query.exec();
                 while(query.next()){
-                    list=query.value(1).toString();
-                    map.insert(query.value(2).toInt(), list);
+                    QString stc = query.value(0).toString();
+                    if(stc.contains(id)){
+                        list=query.value(1).toString();
+                        map.insert(query.value(2).toInt(), list);
+                        qDebug() << query.value(1).toString() << query.value(2).toInt();
+                    }
                 }
             }
             return map;
