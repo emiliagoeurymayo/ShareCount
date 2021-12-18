@@ -66,6 +66,8 @@ public:
     bool addFonds(QString fond, int m_id, int m_idcagnotte);
     ///@brief retire de l'argent à la cagnotte
     bool retirerFonds(QString fond, int m_id, int m_idcagnotte);
+    ///@brief Retourne la liste d'action d'un compte
+    QStringList getListeDettes(int m_idcompte);
 private:
 
     ShareCount m_sharecount;

@@ -880,6 +880,35 @@
         </property>
        </spacer>
       </item>
+      <item row="1" column="1">
+       <widget class="QListView" name="liste_compte"/>
+      </item>
+      <item row="5" column="1">
+       <widget class="QPushButton" name="retour_comptepartage">
+        <property name="text">
+         <string>Retour</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <spacer name="verticalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Minimum</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="8" column="1">
+       <widget class="QListView" name="listeDettes"/>
+      </item>
       <item row="2" column="1">
        <spacer name="verticalSpacer_4">
         <property name="orientation">
@@ -896,15 +925,19 @@
         </property>
        </spacer>
       </item>
+      <item row="4" column="1">
+       <widget class="QPushButton" name="addPart_compte">
+        <property name="text">
+         <string>Add Participant</string>
+        </property>
+       </widget>
+      </item>
       <item row="3" column="1">
        <widget class="QPushButton" name="addDep">
         <property name="text">
          <string>Add dépense</string>
         </property>
        </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QListView" name="liste_compte"/>
       </item>
       <item row="0" column="1">
        <widget class="QLabel" name="nomCompte">
@@ -921,19 +954,21 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
-       <widget class="QPushButton" name="retour_comptepartage">
-        <property name="text">
-         <string>Retour</string>
+      <item row="6" column="1">
+       <spacer name="verticalSpacer_20">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
         </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QPushButton" name="addPart_compte">
-        <property name="text">
-         <string>Add Participant</string>
+        <property name="sizeType">
+         <enum>QSizePolicy::Minimum</enum>
         </property>
-       </widget>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item row="1" column="2">
        <spacer name="horizontalSpacer_9">
@@ -951,21 +986,15 @@
         </property>
        </spacer>
       </item>
-      <item row="6" column="1">
-       <spacer name="verticalSpacer_5">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
+      <item row="7" column="1">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>Dettes </string>
         </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Minimum</enum>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
+       </widget>
       </item>
      </layout>
     </widget>
