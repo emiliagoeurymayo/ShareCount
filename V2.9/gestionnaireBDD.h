@@ -308,12 +308,31 @@ public:
     /// @return renvoie un boolean, vrai si l'ajout s'est bien passé, faux sinon
     bool addDettes(int idcompte,int util1, int util2, int dette){
         QSqlQuery query(this->db);
-        query.prepare("INSERT INTO dettes(idcompte, util1, util2, dette)""VALUES(?,?,?,?)");
+        bool result = false;
+        query.prepare("SELECT * FROM dettes WHERE(idcompte, util1, util2)""VALUES(?,?,?)");
         query.addBindValue(idcompte);
         query.addBindValue(util1);
         query.addBindValue(util2);
-        query.addBindValue(dette);
-        return query.exec();
+        query.exec();
+        if(query.next()){
+            query.prepare("SELECT dette FROM dettes WHERE(idcompte, util1, util2)""VALUES(?,?,?)");
+            query.addBindValue(idcompte);
+            query.addBindValue(util1);
+            query.addBindValue(util2);
+            query.addBindValue(dette);
+            int stc = query.value(0).toInt();
+            stc += dette;
+            query.prepare("UPDATE dettes SET dette="+QString::fromStdString(std::to_string(dette))+" WHERE idcompte="+QString::fromStdString(std::to_string(idcompte))+" AND util1="+QString::fromStdString(std::to_string(util1))+" AND util2="+QString::fromStdString(std::to_string(util2)));
+            result = query.exec();
+        }else{
+            query.prepare("INSERT INTO dettes(idcompte, util1, util2, dette)""VALUES(?,?,?,?)");
+            query.addBindValue(idcompte);
+            query.addBindValue(util1);
+            query.addBindValue(util2);
+            query.addBindValue(dette);
+            result = query.exec();
+        }
+        return result;
     }
 
     /// @brief Renvoie le prenom, nom d'un utilisateur
