@@ -16,6 +16,8 @@
 #include <iostream>
 #include <string>
 
+#include "simplecrypt.h"
+
 class gestionnaireBDD {
 private:
     QSqlDatabase db;
@@ -23,10 +25,12 @@ private:
     int nbCagnotte;
     int nbUtil;
     QString path;
-
+    int cleEncrypt;
 public:
     //creation db
     gestionnaireBDD(){
+        this->cleEncrypt = (89473829);
+
         this->db = QSqlDatabase::addDatabase("QSQLITE");
         QString sys = QOperatingSystemVersion::current().name();
         this->path = QDir::currentPath();
@@ -64,7 +68,7 @@ public:
     void createDB(){
         if(this->db.open()){
             QSqlQuery queryUtil(this->db);
-            if(!queryUtil.exec("create table if not exists utilisateur(idutil int primary key, prenom varchar(20),nom varchar(20),email varchar(50), mdp varchar(20), payement varchar(19))")){
+            if(!queryUtil.exec("create table if not exists utilisateur(idutil int primary key, prenom varchar(20),nom varchar(20),email varchar(50), mdp varchar(100), payement varchar(500))")){
                qDebug() << "utilisateur";
                qDebug() << queryUtil.lastError();
             }
@@ -112,10 +116,18 @@ public:
             }
 
             if(this->nbUtil == 0){
-                addUtil("Thibault","Odor","to@test.fr","mdp", "1234567891234567891");
-                addUtil("Marie-Luc","Moselle","mlm@test.fr","mdp1","1234567891234567891");
-                addUtil("Emilia","Goeury","egm@test.fr","mdp2","1234567891234567891");
-                addUtil("Max", "Illoul", "mi@test.fr", "mdp3","1234567891234567891" );
+                SimpleCrypt encrypt(this->cleEncrypt);
+
+                QString mdp("mdp");
+                QString stc = encrypt.encryptToString(mdp);
+
+                QString banque("1234567891234567891");
+                QString stc2 = encrypt.encryptToString(banque);
+
+                addUtil("Thibault","Odor","to@test.fr",stc.toStdString(), stc2.toStdString());
+                addUtil("Marie-Luc","Moselle","mlm@test.fr",stc.toStdString(),stc2.toStdString());
+                addUtil("Emilia","Goeury","egm@test.fr",stc.toStdString(),stc2.toStdString());
+                addUtil("Max", "Illoul", "mi@test.fr", stc.toStdString(),stc2.toStdString());
             }
 
             if(this->nbCompte == 0){
@@ -146,11 +158,21 @@ public:
     }
 
     int informationConnexionValide(std::string email,std::string mdp){
-            int result = 0;
+            SimpleCrypt encrypt(this->cleEncrypt);
+            QString encryptMdp = encrypt.encryptToString(QString::fromStdString(mdp));
+
             QSqlQuery query(this->db);
-            query.exec("SELECT idutil from utilisateur where email ='"+QString::fromStdString(email)+"' AND mdp ='"+QString::fromStdString(mdp)+"'");
+            int result = 0;
+            query.prepare("SELECT idutil, mdp FROM utilisateur WHERE email ='"+QString::fromStdString(email)+"'");
+            query.exec();
             if(query.next()){
-                result = query.value(0).toInt();
+
+                QString verif = query.value(1).toString();
+                QString verif2 = encrypt.decryptToString(verif);
+                if(verif2 == QString::fromStdString(mdp)){
+                    result = query.value(0).toInt();
+                }
+
             }
             return result;
         }
@@ -168,8 +190,15 @@ public:
             query.addBindValue(QString::fromStdString(prenom));
             query.addBindValue(QString::fromStdString(nom));
             query.addBindValue(QString::fromStdString(email));
-            query.addBindValue(QString::fromStdString(mdp));
-            query.addBindValue(QString::fromStdString(payement));
+
+            SimpleCrypt encrypt(this->cleEncrypt);
+
+            QString stc = encrypt.encryptToString(QString::fromStdString(mdp));
+            query.addBindValue(stc);
+
+            QString stc2 = encrypt.encryptToString(QString::fromStdString(payement));
+            query.addBindValue(stc2);
+
             query.exec();
             if(utilExist(email)){
                 result = true;
@@ -262,9 +291,10 @@ public:
 
 
         for ( const auto& i : list){
-            query.exec("SELECT prenom,nom FROM utilisateur WHERE idutil ="+i);
+            query.exec("SELECT prenom,nom,idutil FROM utilisateur WHERE idutil ="+i);
             if(query.next()){
-                map.insert(query.value(0).toString(), query.value(1).toString());
+                QString info =query.value(0).toString()+" "+query.value(1).toString();
+                map.insert(query.value(2).toString()+".", info);
             }
         }
 
