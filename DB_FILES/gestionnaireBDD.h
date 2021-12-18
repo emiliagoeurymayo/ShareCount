@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
+#include "simplecrypt.h"
 
 class gestionnaireBDD {
 private:
@@ -27,7 +28,7 @@ public:
     gestionnaireBDD(){
         qDebug() << "Constr";
         this->db = QSqlDatabase::addDatabase("QSQLITE");
-        this->db.setDatabaseName("/Users/emiliagoeury/Desktop/Univ/L3_V2/cpoa/ShareCount/DB_FILES/test.db");
+        this->db.setDatabaseName("/Users/emiliagoeury/Desktop/Univ/L3_V2/cpoa/ShareCount/DB_FILES/oui.db");
         this->db.open();
         try{
             if(this->db.open()){
@@ -53,7 +54,7 @@ public:
         qDebug() << "CreateDB";
         if(this->db.open()){
             QSqlQuery query(this->db);
-            if(!query.exec("create table if not exists utilisateur(idutil int primary key, prenom varchar(20),nom varchar(20),email varchar(50), mdp varchar(20), payement varchar(19))")){
+            if(!query.exec("create table if not exists utilisateur(idutil int primary key, prenom varchar(20),nom varchar(20),email varchar(50), mdp varchar(100), payement varchar(19))")){
                qDebug() << "utilisateur";
                qDebug() << query.lastError();
             }
@@ -94,7 +95,15 @@ public:
                 qDebug() << "maxidcagnotte" << query6.value(0).toInt();
             }
 
-            addUtil("pre","nomnom","prenom.nom@test.fr","mdp", "1234567891234567891");
+            SimpleCrypt processSimpleCrypt(89473829);
+
+            QString mdp("mdp");
+
+            //Encrypt
+            QString stc = processSimpleCrypt.encryptToString(mdp);
+            qDebug() << "encrypt mdp" << mdp << "test to sTring fuck up" << stc;
+
+            addUtil("pre","nomnom","prenom.nom@test.fr",stc.toStdString(), "1234567891234567891");
             addUtil("admin","admin","admin@test.fr","mdp1","1234567891234567891");
             addUtil("test","test","test@test.fr","mdp2","1234567891234567891");
 
@@ -111,6 +120,17 @@ public:
             addDettes(2, 3, 2, 1);
             addDettes(3, 1, 3, 80);
         }
+    }
+
+    QString getMdp(int id){
+        QSqlQuery query;
+        QString stc="";
+        query.prepare("SELECT mdp FROM utilisateur WHERE idutil ="+QString::fromStdString(std::to_string(id)));
+        query.exec();
+        if(query.next()){
+            stc = query.value(0).toString();
+        }
+        return stc;
     }
 
     bool utilExist(std::string email){

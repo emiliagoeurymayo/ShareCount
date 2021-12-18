@@ -11,10 +11,12 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    simplecrypt.cpp
 
 HEADERS += \
     gestionnaireBDD.h \
-    mainwindow.h
+    mainwindow.h \
+    simplecrypt.h
 
 FORMS += \
     mainwindow.ui
@@ -23,7 +25,8 @@ DISTFILES += \
     bdd.sqlite \
     database.db \
     test.db \
-    test2.db
+    test2.db \
+    oui.db
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

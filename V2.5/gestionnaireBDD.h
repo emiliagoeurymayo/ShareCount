@@ -113,9 +113,9 @@ public:
 
             if(this->nbUtil == 0){
                 addUtil("Thibault","Odor","to@test.fr","mdp", "1234567891234567891");
-                addUtil("Marie-Luc","Moselle","mlm@test.fr","mdp1","1234567891234567891");
-                addUtil("Emilia","Goeury","egm@test.fr","mdp2","1234567891234567891");
-                addUtil("Max", "Illoul", "mi@test.fr", "mdp3","1234567891234567891" );
+                addUtil("Marie-Luc","Moselle","mlm@test.fr","mdp","1234567891234567891");
+                addUtil("Emilia","Goeury","egm@test.fr","mdp","1234567891234567891");
+                addUtil("Max", "Illoul", "mi@test.fr", "mdp","1234567891234567891" );
             }
 
             if(this->nbCompte == 0){
