@@ -106,6 +106,8 @@ private slots:
     ///@brief Slot s'activant lorsque le bouton de retrait de fond cliqué
     void on_retirerFond_clicked();
 
+    void on_addDep_clicked();
+
 private:
     Ui::windows *ui;
     ///@brief modele

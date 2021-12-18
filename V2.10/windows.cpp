@@ -268,3 +268,15 @@ void windows::on_retirerFond_clicked(){
     }
 }
 
+
+void windows::on_addDep_clicked()
+{
+    QModelIndex index = ui->liste_compte->currentIndex();
+    QString stcstring = index.data(Qt::DisplayRole).toString();
+    int id = stcstring.split(".")[0].toInt();
+    if(id!=0 && id!=m_id){
+        QString montant = QInputDialog::getText(this, "Input dialog","Montant de votre dette", QLineEdit::Normal);
+        m_gestionnaireDialogue.addDettes(m_idCompte, m_id, id, montant.toInt());
+    }
+}
+

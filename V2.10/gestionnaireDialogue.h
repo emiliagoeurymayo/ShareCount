@@ -68,6 +68,7 @@ public:
     bool retirerFonds(QString fond, int m_id, int m_idcagnotte);
     ///@brief retourne la liste des dettes
     QStringList getListeDettes(int m_idcompte);
+    void addDettes(int idcompte,int idutil1,int idutil2,int montant);
 private:
 
     ShareCount m_sharecount;

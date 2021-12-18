@@ -199,3 +199,7 @@ bool GestionnaireDialogue::retirerFonds(QString fond, int m_id, int m_idcagnotte
 QStringList GestionnaireDialogue::getListeDettes(int m_idcompte){
     return m_gbdd.getListeDettes(m_idcompte);
 }
+
+void GestionnaireDialogue::addDettes(int idcompte,int idutil1,int idutil2,int montant){
+    m_gbdd.addDettes(idcompte,idutil1,idutil2,montant);
+}
